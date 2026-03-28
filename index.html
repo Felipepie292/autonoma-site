@@ -872,7 +872,7 @@ Ver funcionando
     <div class="absolute bottom-8 right-8 w-4 h-4 border-r border-b border-neutral-700 pointer-events-none"></div>
 
     <!-- Progress Sidebar — System Monitor Panel -->
-    <div class="hidden lg:flex absolute left-8 xl:left-12 top-1/2 -translate-y-1/2 flex-col z-30" role="tablist" aria-orientation="vertical" aria-label="Etapas da metodologia" style="width: 160px; gap: 0;">
+    <div class="hidden lg:flex absolute left-8 xl:left-12 top-1/2 -translate-y-1/2 flex-col z-30" id="meth-sidebar" role="tablist" aria-orientation="vertical" aria-label="Etapas da metodologia" style="width: 160px; gap: 0;">
 
       <!-- Node 1: IDENTIFICAR -->
       <div class="meth-node relative border border-white/5 bg-[#050505] transition-all duration-500 cursor-default" id="meth-node-0" style="padding: 10px 12px;">
@@ -892,7 +892,7 @@ Ver funcionando
       </div>
 
       <!-- Connector line 1→2 -->
-      <div class="relative flex flex-col items-center" style="height: 44px; width: 100%;">
+      <div class="meth-conn relative flex flex-col items-center" style="height: 44px; width: 100%;">
         <!-- Track -->
         <div class="absolute left-4 top-0 bottom-0 w-px bg-white/5"></div>
         <!-- Beam (scroll-driven, via clip-path) -->
@@ -919,7 +919,7 @@ Ver funcionando
       </div>
 
       <!-- Connector line 2→3 -->
-      <div class="relative flex flex-col items-center" style="height: 44px; width: 100%;">
+      <div class="meth-conn relative flex flex-col items-center" style="height: 44px; width: 100%;">
         <div class="absolute left-4 top-0 bottom-0 w-px bg-white/5"></div>
         <div class="absolute left-4 top-0 w-px bg-[#F97316] transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]" id="meth-beam-1" style="height: 0%; opacity: 0.7;"></div>
         <div class="absolute left-7 top-2 flex flex-col gap-0.5">
@@ -1038,14 +1038,75 @@ Ver funcionando
 </style></noscript>
 <style>
 @media (max-width: 1023px) {
-  #metodologia-section { height: auto !important; }
+  /* Mantém sticky scroll no mobile — usa fluxo horizontal no topo */
+  #metodologia-section { height: 300vh !important; }
   #metodologia-section > .sticky {
+    position: sticky !important;
+    height: 100vh !important;
+    overflow: hidden !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    justify-content: flex-start !important;
+  }
+
+  /* Sidebar: de vertical/absoluta → horizontal no topo */
+  #meth-sidebar {
+    display: flex !important;
+    flex-direction: row !important;
     position: relative !important;
-    height: auto !important;
-    overflow: visible !important;
+    left: unset !important; top: unset !important;
+    transform: none !important;
+    width: 100% !important;
+    padding: 1rem 1.25rem 0 !important;
+    align-items: center !important;
+    flex-shrink: 0;
+    gap: 0 !important;
+  }
+  /* Nós: tamanho compacto */
+  #meth-sidebar .meth-node {
+    padding: 7px 10px !important;
+    flex-shrink: 0;
+    width: auto !important;
+  }
+  /* Conectores: linha horizontal flex:1 */
+  #meth-sidebar .meth-conn {
+    flex: 1 !important;
+    height: 2px !important;
+    width: auto !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    overflow: hidden;
+  }
+  /* Track horizontal (fundo) */
+  #meth-sidebar .meth-conn > .absolute:first-child {
+    left: 0 !important; top: 0 !important; bottom: 0 !important;
+    right: 0 !important;
+    width: 100% !important; height: 100% !important;
+    background: rgba(255,255,255,0.05) !important;
+  }
+  /* Beam laranja horizontal — anima width via JS */
+  #meth-sidebar .meth-conn > [id^="meth-beam"] {
+    left: 0 !important; top: 0 !important;
+    height: 100% !important; width: 0% !important;
+    background: #F97316 !important;
+  }
+  /* Micro labels: ocultar no mobile */
+  #meth-sidebar .meth-micro { display: none !important; }
+
+  /* Steps: ocupa a área abaixo da barra horizontal */
+  .meth-step {
+    position: absolute !important;
+    top: 72px !important;
+    left: 0 !important; right: 0 !important; bottom: 0 !important;
+    padding: 2rem 1.5rem !important;
     align-items: flex-start !important;
   }
-  #meth-mobile { padding: 3rem 1.5rem; }
+
+  /* Esconde fallback mobile antigo */
+  #meth-mobile { display: none !important; }
+
+  /* Label rotacionado: esconder no mobile */
+  #metodologia-section .hidden.lg\\:block { display: none !important; }
 }
 </style>
 <!-- Metodologia scroll controller script -->
@@ -1064,19 +1125,13 @@ Ver funcionando
     return;
   }
 
-  // Mobile: show stacked, hide desktop steps. Desktop: hide mobile block.
+  const isMobile = window.innerWidth < 1024;
+
+  // Esconde fallback mobile; mostra steps animados em qualquer viewport
   const mobileBlock = document.getElementById('meth-mobile');
   const desktopSteps = document.querySelectorAll('.meth-step');
-  if (window.innerWidth < 1024) {
-    if (mobileBlock) mobileBlock.style.display = 'flex';
-    desktopSteps.forEach(function(s) { s.style.display = 'none'; });
-    var sect = document.getElementById('metodologia-section');
-    if (sect) sect.style.height = 'auto';
-    return;
-  } else {
-    if (mobileBlock) mobileBlock.style.display = 'none';
-    desktopSteps.forEach(function(s) { s.style.display = 'flex'; });
-  }
+  if (mobileBlock) mobileBlock.style.display = 'none';
+  desktopSteps.forEach(function(s) { s.style.display = 'flex'; });
 
   const section = document.getElementById('metodologia-section');
   if (!section) return;
@@ -1135,15 +1190,18 @@ Ver funcionando
     else activeStep = 2;
 
     // ── Beams: scroll-proportional fill between nodes ──
+    // Mobile: anima width (horizontal); Desktop: anima height (vertical)
     // Beam 0 (between node 0 and 1): fills during progress 0→0.33
     if (beams[0]) {
       const b0 = Math.max(0, Math.min(1, progress / 0.33));
-      beams[0].style.height = (b0 * 100) + '%';
+      if (isMobile) { beams[0].style.width = (b0 * 100) + '%'; }
+      else           { beams[0].style.height = (b0 * 100) + '%'; }
     }
     // Beam 1 (between node 1 and 2): fills during progress 0.33→0.66
     if (beams[1]) {
       const b1 = Math.max(0, Math.min(1, (progress - 0.33) / 0.33));
-      beams[1].style.height = (b1 * 100) + '%';
+      if (isMobile) { beams[1].style.width = (b1 * 100) + '%'; }
+      else           { beams[1].style.height = (b1 * 100) + '%'; }
     }
 
     // ── Micro data points ──
