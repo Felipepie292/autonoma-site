@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx serve:*)",
+      "Bash(python3:*)",
+      "Bash(open -a \"Google Chrome\" \"http://localhost:3000\")",
+      "Bash(osascript -e ':*)",
+      "Bash(gh auth:*)"
+    ]
+  }
+}

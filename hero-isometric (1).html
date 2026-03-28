@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hero — Isometric Workspace</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#050505;font-family:'Inter',sans-serif;overflow:hidden;display:flex;align-items:center;justify-content:center;min-height:100vh}
+
+.scene{
+  width:700px;height:600px;
+  position:relative;
+  transform:rotateX(55deg) rotateZ(-45deg);
+  transform-style:preserve-3d;
+  perspective:1200px;
+}
+
+/* ═══ GRID FLOOR ═══ */
+.floor{
+  position:absolute;
+  width:800px;height:800px;
+  left:-50px;top:-100px;
+  background-image:
+    linear-gradient(rgba(249,115,22,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(249,115,22,0.03) 1px, transparent 1px);
+  background-size:40px 40px;
+  border:1px solid rgba(249,115,22,0.02);
+}
+
+/* ═══ SHARED ELEMENT STYLES ═══ */
+.iso-element{
+  position:absolute;
+  transform-style:preserve-3d;
+}
+
+/* Float animations */
+@keyframes float1{0%,100%{transform:translateZ(0)}50%{transform:translateZ(12px)}}
+@keyframes float2{0%,100%{transform:translateZ(0)}50%{transform:translateZ(8px)}}
+@keyframes float3{0%,100%{transform:translateZ(0)}50%{transform:translateZ(15px)}}
+@keyframes gentleSway{0%,100%{transform:translateX(0) translateY(0)}25%{transform:translateX(3px) translateY(-2px)}75%{transform:translateX(-3px) translateY(2px)}}
+
+/* ═══ MONITOR ═══ */
+.monitor{
+  left:80px;top:100px;
+  animation:float1 6s ease-in-out infinite;
+}
+.monitor-body{
+  width:220px;height:150px;
+  background:#0A0A0A;
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:8px;
+  overflow:hidden;
+  box-shadow:0 20px 60px rgba(0,0,0,0.5),0 0 30px rgba(249,115,22,0.03);
+  transform:translateZ(30px);
+}
+.monitor-stand{
+  width:60px;height:20px;
+  background:linear-gradient(180deg,#1a1a1a,#111);
+  margin:0 auto;
+  border-radius:0 0 4px 4px;
+  transform:translateZ(29px);
+}
+.monitor-base{
+  width:90px;height:8px;
+  background:#111;
+  margin:0 auto;
+  border-radius:4px;
+  transform:translateZ(28px);
+  box-shadow:0 4px 12px rgba(0,0,0,0.4);
+}
+
+/* Monitor screen content — chat */
+.mon-topbar{
+  height:18px;background:#111;
+  display:flex;align-items:center;padding:0 8px;gap:4px;
+  border-bottom:1px solid rgba(255,255,255,0.04);
+}
+.mon-dot{width:4px;height:4px;border-radius:50%}
+.mon-dot.r{background:#FF5F56}.mon-dot.y{background:#FFBD2E}.mon-dot.g{background:#27C93F}
+.mon-chat{padding:6px;display:flex;flex-direction:column;gap:3px;height:calc(100% - 18px);overflow:hidden}
+.mon-bubble{
+  padding:3px 6px;border-radius:4px;
+  font-size:5px;line-height:1.4;max-width:70%;
+  opacity:0;transform:translateY(4px);
+  animation:bubbleIn 0.3s ease forwards;
+}
+@keyframes bubbleIn{to{opacity:1;transform:translateY(0)}}
+.mon-bubble.in{background:#1a1a1a;color:rgba(255,255,255,0.5);align-self:flex-start;border-bottom-left-radius:1px}
+.mon-bubble.out{background:#0a3d1f;color:rgba(200,255,220,0.7);align-self:flex-end;border-bottom-right-radius:1px}
+
+/* ═══ PHONE ═══ */
+.phone{
+  left:370px;top:80px;
+  animation:float2 5s ease-in-out infinite;
+  animation-delay:-1.5s;
+}
+.phone-body{
+  width:80px;height:160px;
+  background:#0A0A0A;
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:12px;
+  overflow:hidden;
+  box-shadow:0 15px 50px rgba(0,0,0,0.5),0 0 20px rgba(37,211,102,0.03);
+  transform:translateZ(25px);
+  padding:2px;
+}
+.phone-notch{
+  width:30px;height:6px;
+  background:#000;border-radius:3px;
+  margin:3px auto 2px;
+}
+.phone-screen{
+  background:#0E0E0E;
+  border-radius:8px;
+  height:calc(100% - 14px);
+  overflow:hidden;
+  display:flex;flex-direction:column;
+}
+.phone-header{
+  padding:4px 6px;
+  background:rgba(37,211,102,0.06);
+  border-bottom:1px solid rgba(255,255,255,0.03);
+  display:flex;align-items:center;gap:3px;
+}
+.phone-hdr-dot{width:6px;height:6px;border-radius:50%;background:#128C7E;display:flex;align-items:center;justify-content:center}
+.phone-hdr-name{font-size:4.5px;color:rgba(255,255,255,0.6);font-weight:600}
+.phone-msgs{flex:1;padding:3px;display:flex;flex-direction:column;gap:2px;overflow:hidden}
+.phone-msg{
+  padding:2px 4px;border-radius:3px;font-size:4px;line-height:1.4;max-width:75%;
+  opacity:0;animation:bubbleIn 0.3s ease forwards;
+}
+.phone-msg.in{background:#1a1a1a;color:rgba(255,255,255,0.4);align-self:flex-start}
+.phone-msg.out{background:#0a3d1f;color:rgba(200,255,220,0.6);align-self:flex-end}
+
+/* ═══ DASHBOARD CARDS ═══ */
+.dash-card{
+  background:#0C0C0C;
+  border:1px solid rgba(255,255,255,0.06);
+  border-radius:6px;
+  overflow:hidden;
+  box-shadow:0 10px 40px rgba(0,0,0,0.4);
+}
+
+.card1{
+  left:20px;top:310px;
+  animation:float3 7s ease-in-out infinite;
+  animation-delay:-2s;
+}
+.card1 .dash-card{width:130px;height:80px;transform:translateZ(20px)}
+.card1-header{padding:5px 7px;border-bottom:1px solid rgba(255,255,255,0.03);display:flex;align-items:center;justify-content:space-between}
+.card1-title{font-size:5px;color:rgba(255,255,255,0.3);font-weight:600;text-transform:uppercase;letter-spacing:0.5px}
+.card1-badge{font-size:4px;padding:1px 4px;border-radius:2px;background:rgba(52,211,153,0.1);color:#34D399;font-weight:700}
+.card1-body{padding:7px}
+.card1-value{font-size:16px;font-weight:800;color:#34D399;letter-spacing:-1px}
+.card1-sub{font-size:4px;color:rgba(255,255,255,0.2);margin-top:2px}
+.card1-bars{display:flex;align-items:flex-end;gap:2px;height:18px;margin-top:6px}
+.card1-bar{width:100%;border-radius:1px 1px 0 0;animation:barGrow 2s ease-in-out infinite alternate}
+@keyframes barGrow{0%{height:40%}100%{height:100%}}
+
+.card2{
+  left:190px;top:330px;
+  animation:float2 6s ease-in-out infinite;
+  animation-delay:-3s;
+}
+.card2 .dash-card{width:130px;height:80px;transform:translateZ(22px)}
+.card2-body{padding:7px}
+.card2-metric{display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.02)}
+.card2-metric:last-child{border-bottom:none}
+.card2-label{font-size:4.5px;color:rgba(255,255,255,0.2);font-weight:500}
+.card2-val{font-size:5px;font-weight:700}
+
+/* ═══ CALENDAR CARD ═══ */
+.cal-card{
+  left:370px;top:300px;
+  animation:float1 5.5s ease-in-out infinite;
+  animation-delay:-1s;
+}
+.cal-card .dash-card{width:140px;height:90px;transform:translateZ(18px)}
+.cal-header{padding:5px 7px;background:rgba(66,133,244,0.04);border-bottom:1px solid rgba(255,255,255,0.03);display:flex;align-items:center;gap:4px}
+.cal-icon{width:8px;height:8px;border-radius:2px;background:rgba(66,133,244,0.15);display:flex;align-items:center;justify-content:center}
+.cal-icon svg{width:5px;height:5px}
+.cal-title{font-size:5px;color:rgba(66,133,244,0.6);font-weight:600}
+.cal-body{padding:5px 7px}
+.cal-slot{display:flex;align-items:center;gap:5px;padding:3px 0;border-bottom:1px solid rgba(255,255,255,0.02)}
+.cal-slot:last-child{border-bottom:none}
+.cal-time{font-size:4px;color:rgba(255,255,255,0.15);font-weight:600;min-width:18px}
+.cal-event-bar{height:8px;border-radius:2px;flex:1;display:flex;align-items:center;padding:0 3px;font-size:3.5px;font-weight:600}
+.cal-event-bar.booked{background:rgba(66,133,244,0.08);color:rgba(66,133,244,0.5);border-left:1.5px solid #4285F4}
+.cal-event-bar.free{background:rgba(255,255,255,0.015);color:rgba(255,255,255,0.1)}
+.cal-event-bar.new{background:rgba(249,115,22,0.08);color:rgba(249,115,22,0.6);border-left:1.5px solid #F97316;opacity:0;animation:calSlide 0.4s ease forwards}
+@keyframes calSlide{to{opacity:1}}
+
+/* ═══ FLYING NOTIFICATIONS ═══ */
+.notif{
+  position:absolute;
+  background:#111;
+  border:1px solid rgba(255,255,255,0.06);
+  border-radius:5px;
+  padding:4px 7px;
+  display:flex;align-items:center;gap:4px;
+  font-size:4.5px;color:rgba(255,255,255,0.4);font-weight:500;
+  box-shadow:0 8px 25px rgba(0,0,0,0.4);
+  opacity:0;
+  animation:notifFly 4s ease-in-out infinite;
+  transform:translateZ(40px);
+  white-space:nowrap;
+}
+.notif-dot{width:4px;height:4px;border-radius:50%;flex-shrink:0}
+@keyframes notifFly{
+  0%{opacity:0;transform:translateZ(40px) translateY(10px)}
+  15%{opacity:1;transform:translateZ(45px) translateY(0)}
+  85%{opacity:1;transform:translateZ(50px) translateY(-3px)}
+  100%{opacity:0;transform:translateZ(55px) translateY(-8px)}
+}
+
+.notif1{left:280px;top:60px;animation-delay:0s}
+.notif1 .notif-dot{background:#34D399}
+.notif2{left:500px;top:200px;animation-delay:1.5s}
+.notif2 .notif-dot{background:#F97316}
+.notif3{left:100px;top:240px;animation-delay:3s}
+.notif3 .notif-dot{background:#60A5FA}
+.notif4{left:450px;top:420px;animation-delay:2s}
+.notif4 .notif-dot{background:#A855F7}
+.notif5{left:50px;top:450px;animation-delay:4.5s}
+.notif5 .notif-dot{background:#FBBF24}
+.notif6{left:330px;top:470px;animation-delay:5.5s}
+.notif6 .notif-dot{background:#34D399}
+
+/* ═══ CONNECTION LINES ═══ */
+.conn-line{
+  position:absolute;
+  height:1px;
+  background:linear-gradient(90deg,transparent,rgba(249,115,22,0.08),transparent);
+  transform-origin:left center;
+  transform:translateZ(15px);
+  animation:linePulse 3s ease-in-out infinite;
+}
+@keyframes linePulse{0%,100%{opacity:0.3}50%{opacity:1}}
+.conn1{left:220px;top:175px;width:160px;transform:translateZ(15px) rotate(5deg)}
+.conn2{left:150px;top:280px;width:120px;transform:translateZ(15px) rotate(40deg);animation-delay:-1s}
+.conn3{left:320px;top:250px;width:100px;transform:translateZ(15px) rotate(70deg);animation-delay:-2s}
+.conn4{left:300px;top:170px;width:80px;transform:translateZ(15px) rotate(-20deg);animation-delay:-1.5s}
+
+/* ═══ DATA PARTICLES ═══ */
+.particle{
+  position:absolute;
+  width:3px;height:3px;
+  border-radius:50%;
+  background:#F97316;
+  opacity:0;
+  transform:translateZ(35px);
+  animation:particleFloat 5s ease-in-out infinite;
+}
+@keyframes particleFloat{
+  0%{opacity:0;transform:translateZ(35px) translate(0,0)}
+  20%{opacity:0.6}
+  80%{opacity:0.6}
+  100%{opacity:0;transform:translateZ(50px) translate(30px,-40px)}
+}
+.p1{left:190px;top:160px;animation-delay:0s}
+.p2{left:370px;top:140px;animation-delay:1s}
+.p3{left:130px;top:350px;animation-delay:2s}
+.p4{left:400px;top:320px;animation-delay:3s}
+.p5{left:250px;top:280px;animation-delay:0.5s}
+.p6{left:460px;top:250px;animation-delay:1.5s}
+.p7{left:300px;top:400px;animation-delay:2.5s}
+.p8{left:100px;top:200px;animation-delay:4s}
+
+/* ═══ AMBIENT GLOW ═══ */
+.ambient-glow{
+  position:absolute;
+  border-radius:50%;
+  filter:blur(60px);
+  pointer-events:none;
+  animation:glowPulse 8s ease-in-out infinite;
+}
+@keyframes glowPulse{0%,100%{opacity:0.3}50%{opacity:0.6}}
+.glow1{width:200px;height:200px;background:rgba(249,115,22,0.04);left:100px;top:150px}
+.glow2{width:150px;height:150px;background:rgba(37,211,102,0.03);left:350px;top:100px;animation-delay:-3s}
+.glow3{width:180px;height:180px;background:rgba(66,133,244,0.03);left:300px;top:300px;animation-delay:-5s}
+</style>
+</head>
+<body>
+
+<div class="scene">
+  <!-- Floor grid -->
+  <div class="floor"></div>
+  
+  <!-- Ambient glows -->
+  <div class="ambient-glow glow1"></div>
+  <div class="ambient-glow glow2"></div>
+  <div class="ambient-glow glow3"></div>
+
+  <!-- Connection lines -->
+  <div class="conn-line conn1"></div>
+  <div class="conn-line conn2"></div>
+  <div class="conn-line conn3"></div>
+  <div class="conn-line conn4"></div>
+
+  <!-- Monitor -->
+  <div class="iso-element monitor">
+    <div class="monitor-body">
+      <div class="mon-topbar">
+        <div class="mon-dot r"></div>
+        <div class="mon-dot y"></div>
+        <div class="mon-dot g"></div>
+      </div>
+      <div class="mon-chat" id="monChat"></div>
+    </div>
+    <div class="monitor-stand"></div>
+    <div class="monitor-base"></div>
+  </div>
+
+  <!-- Phone -->
+  <div class="iso-element phone">
+    <div class="phone-body">
+      <div class="phone-notch"></div>
+      <div class="phone-screen">
+        <div class="phone-header">
+          <div class="phone-hdr-dot"></div>
+          <span class="phone-hdr-name">WhatsApp</span>
+        </div>
+        <div class="phone-msgs" id="phoneMsgs"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dashboard Card 1 — Conversões -->
+  <div class="iso-element card1">
+    <div class="dash-card">
+      <div class="card1-header">
+        <span class="card1-title">Conversões hoje</span>
+        <span class="card1-badge">+12%</span>
+      </div>
+      <div class="card1-body">
+        <div class="card1-value" id="convVal">24</div>
+        <div class="card1-sub">vs 21 ontem</div>
+        <div class="card1-bars" id="convBars"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dashboard Card 2 — Métricas -->
+  <div class="iso-element card2">
+    <div class="dash-card">
+      <div class="card1-header">
+        <span class="card1-title">Performance</span>
+      </div>
+      <div class="card2-body">
+        <div class="card2-metric">
+          <span class="card2-label">CPA</span>
+          <span class="card2-val" style="color:#34D399" id="cpaVal">R$ 16,80</span>
+        </div>
+        <div class="card2-metric">
+          <span class="card2-label">ROAS</span>
+          <span class="card2-val" style="color:#60A5FA">4.2x</span>
+        </div>
+        <div class="card2-metric">
+          <span class="card2-label">CTR</span>
+          <span class="card2-val" style="color:#FBBF24">2.3%</span>
+        </div>
+        <div class="card2-metric">
+          <span class="card2-label">Leads</span>
+          <span class="card2-val" style="color:#F97316" id="leadsVal">142</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Calendar Card -->
+  <div class="iso-element cal-card">
+    <div class="dash-card">
+      <div class="cal-header">
+        <div class="cal-icon"><svg viewBox="0 0 24 24" fill="#4285F4"><rect x="3" y="4" width="18" height="18" rx="2"/></svg></div>
+        <span class="cal-title">Agenda — Hoje</span>
+      </div>
+      <div class="cal-body">
+        <div class="cal-slot">
+          <span class="cal-time">09:00</span>
+          <div class="cal-event-bar booked">Maria S. — Limpeza</div>
+        </div>
+        <div class="cal-slot">
+          <span class="cal-time">10:00</span>
+          <div class="cal-event-bar free">Disponível</div>
+        </div>
+        <div class="cal-slot">
+          <span class="cal-time">11:00</span>
+          <div class="cal-event-bar booked">Carlos F. — Avaliação</div>
+        </div>
+        <div class="cal-slot" id="calNewSlot">
+          <span class="cal-time">14:00</span>
+          <div class="cal-event-bar free" id="calNewEvent">Disponível</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Flying notifications -->
+  <div class="notif notif1"><div class="notif-dot"></div>Lead qualificado — Score 91</div>
+  <div class="notif notif2"><div class="notif-dot"></div>Pagamento confirmado R$ 180</div>
+  <div class="notif notif3"><div class="notif-dot"></div>Post agendado — @loja.inverno</div>
+  <div class="notif notif4"><div class="notif-dot"></div>CPA otimizado — -32%</div>
+  <div class="notif notif5"><div class="notif-dot"></div>Visita agendada — Sáb 10h</div>
+  <div class="notif notif6"><div class="notif-dot"></div>Estoque reservado — 4 un.</div>
+
+  <!-- Data particles -->
+  <div class="particle p1"></div>
+  <div class="particle p2"></div>
+  <div class="particle p3"></div>
+  <div class="particle p4"></div>
+  <div class="particle p5"></div>
+  <div class="particle p6"></div>
+  <div class="particle p7"></div>
+  <div class="particle p8"></div>
+</div>
+
+<script>
+// ═══ ANIMATED CONTENT ═══
+
+// Monitor chat messages (loop)
+const monChat = document.getElementById('monChat');
+const monMsgs = [
+  {type:'in',text:'oi, quero agendar uma limpeza'},
+  {type:'out',text:'boa tarde! a Dra. Camila tem horário quinta às 10h'},
+  {type:'in',text:'perfeito, pode ser'},
+  {type:'out',text:'agendado! vou gerar o link de pagamento'},
+  {type:'in',text:'pago!'},
+  {type:'out',text:'confirmado ✓ quinta às 10h'},
+];
+let monIdx = 0;
+
+function addMonMsg() {
+  const msg = monMsgs[monIdx % monMsgs.length];
+  const el = document.createElement('div');
+  el.className = `mon-bubble ${msg.type}`;
+  el.textContent = msg.text;
+  monChat.appendChild(el);
+  monChat.scrollTop = monChat.scrollHeight;
+  
+  // Keep max 5 messages visible
+  while (monChat.children.length > 5) {
+    monChat.firstChild.remove();
+  }
+  
+  monIdx++;
+  setTimeout(addMonMsg, 2000 + Math.random() * 1500);
+}
+setTimeout(addMonMsg, 1000);
+
+// Phone messages (loop)
+const phoneMsgs = document.getElementById('phoneMsgs');
+const pMsgs = [
+  {type:'in',text:'vi o anúncio do Alto da Colina'},
+  {type:'out',text:'oi! temos 3 suítes disponíveis'},
+  {type:'in',text:'quanto custa?'},
+  {type:'out',text:'a partir de R$ 1.050k'},
+  {type:'in',text:'quero visitar'},
+  {type:'out',text:'agendado pra sábado 10h ✓'},
+];
+let pIdx = 0;
+
+function addPhoneMsg() {
+  const msg = pMsgs[pIdx % pMsgs.length];
+  const el = document.createElement('div');
+  el.className = `phone-msg ${msg.type}`;
+  el.textContent = msg.text;
+  phoneMsgs.appendChild(el);
+  phoneMsgs.scrollTop = phoneMsgs.scrollHeight;
+  
+  while (phoneMsgs.children.length > 4) {
+    phoneMsgs.firstChild.remove();
+  }
+  
+  pIdx++;
+  setTimeout(addPhoneMsg, 2500 + Math.random() * 2000);
+}
+setTimeout(addPhoneMsg, 500);
+
+// Conversion counter
+let convCount = 24;
+function bumpConv() {
+  convCount++;
+  if (convCount > 35) convCount = 24;
+  document.getElementById('convVal').textContent = convCount;
+  setTimeout(bumpConv, 4000 + Math.random() * 3000);
+}
+setTimeout(bumpConv, 5000);
+
+// Leads counter
+let leadsCount = 142;
+function bumpLeads() {
+  leadsCount++;
+  if (leadsCount > 160) leadsCount = 142;
+  document.getElementById('leadsVal').textContent = leadsCount;
+  setTimeout(bumpLeads, 3000 + Math.random() * 2000);
+}
+setTimeout(bumpLeads, 3000);
+
+// Chart bars
+const barsContainer = document.getElementById('convBars');
+const barColors = ['#F97316','#34D399','#60A5FA','#FBBF24','#F97316','#34D399','#60A5FA'];
+for (let i = 0; i < 7; i++) {
+  const bar = document.createElement('div');
+  bar.className = 'card1-bar';
+  bar.style.background = barColors[i];
+  bar.style.opacity = '0.4';
+  bar.style.height = (30 + Math.random() * 70) + '%';
+  bar.style.animationDelay = (i * 0.3) + 's';
+  bar.style.animationDuration = (2 + Math.random() * 2) + 's';
+  barsContainer.appendChild(bar);
+}
+
+// Calendar new booking animation
+function calendarBook() {
+  const ev = document.getElementById('calNewEvent');
+  ev.className = 'cal-event-bar new';
+  ev.textContent = 'João R. — Consulta';
+  
+  setTimeout(() => {
+    ev.className = 'cal-event-bar free';
+    ev.textContent = 'Disponível';
+    ev.style.animation = 'none';
+    ev.offsetHeight; // reflow
+    ev.style.animation = '';
+    setTimeout(calendarBook, 6000);
+  }, 4000);
+}
+setTimeout(calendarBook, 3000);
+</script>
+
+</body>
+</html>

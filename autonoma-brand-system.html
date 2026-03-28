@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Autonoma — Brand System Completo</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',sans-serif;background:#050505;color:#fff;padding:60px 20px}
+.container{max-width:1100px;margin:0 auto}
+h1{font-size:18px;font-weight:500;letter-spacing:-0.03em;text-transform:uppercase}
+.sub{color:rgba(255,255,255,0.2);font-size:10px;margin-bottom:50px;letter-spacing:0.12em;text-transform:uppercase;margin-top:6px}
+.section{margin-bottom:64px}
+.stitle{font-size:10px;text-transform:uppercase;letter-spacing:0.15em;color:#F97316;margin-bottom:28px;padding-left:14px;border-left:2px solid rgba(249,115,22,0.4)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+.grid4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:16px}
+.card{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.05);padding:40px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;transition:border-color 0.3s;min-height:140px}
+.card:hover{border-color:rgba(249,115,22,0.15)}
+.card.dark{background:#050505}
+.card.light{background:#ffffff}
+.card-note{font-size:9px;letter-spacing:0.1em;color:rgba(255,255,255,0.2);text-transform:uppercase;text-align:center;line-height:1.5}
+.card.light .card-note{color:rgba(0,0,0,0.3)}
+.wide{padding:48px 56px;flex-direction:row;justify-content:space-between;align-items:center}
+.wide .card-note{text-align:right;min-width:120px}
+.divider{height:1px;background:rgba(255,255,255,0.04);margin:16px 0 56px}
+
+/* THE display type */
+.d{font-family:'Inter',sans-serif;font-weight:500;text-transform:uppercase;letter-spacing:-0.05em;line-height:0.9;color:#fff;white-space:nowrap}
+.d.dark-text{color:#050505}
+.ac{color:#F97316}
+.mt{color:rgba(255,255,255,0.2)}
+.mt-dark{color:rgba(0,0,0,0.15)}
+
+@keyframes blink{0%,45%{opacity:1}50%,100%{opacity:0}}
+@keyframes pulse{0%,100%{opacity:0.5}50%{opacity:1}}
+@keyframes glow{0%,100%{box-shadow:0 0 4px rgba(249,115,22,0.15)}50%{box-shadow:0 0 14px rgba(249,115,22,0.5)}}
+@keyframes rotS{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+@keyframes dash{to{stroke-dashoffset:-20}}
+@keyframes breathe{0%,100%{transform:scale(1);opacity:0.5}50%{transform:scale(1.2);opacity:1}}
+@keyframes scanV{0%{top:0;opacity:0}10%{opacity:1}90%{opacity:1}100%{top:calc(100% - 1px);opacity:0}}
+@keyframes fadeSlide{0%{opacity:0;transform:translateY(4px)}100%{opacity:1;transform:translateY(0)}}
+
+.bk{animation:blink 1.2s step-end infinite}
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>AUTONOMA_ BRAND SYSTEM</h1>
+<p class="sub">Tipografia display do site · Elementos geométricos · Todas as variações</p>
+
+<div class="divider"></div>
+
+<!-- ====================== WORDMARK DARK ====================== -->
+<div class="section">
+<div class="stitle">01 — Wordmark principal · fundo escuro</div>
+<div class="grid2">
+
+<!-- Clean -->
+<div class="card dark wide">
+<div style="display:flex;align-items:center">
+<span class="d" style="font-size:1.35rem">AUTONOMA<span class="ac bk">_</span></span>
+</div>
+<div class="card-note">Clean + cursor<br>pra navbar</div>
+</div>
+
+<!-- Com dot status -->
+<div class="card dark wide">
+<div style="display:flex;align-items:center;gap:10px">
+<div style="position:relative;width:8px;height:8px;flex-shrink:0">
+<div style="width:8px;height:8px;border-radius:50%;background:#F97316;animation:glow 2.5s ease-in-out infinite"></div>
+</div>
+<span class="d" style="font-size:1.35rem">AUTONOMA<span class="ac bk">_</span></span>
+</div>
+<div class="card-note">Dot pulsante<br>sistema online</div>
+</div>
+
+<!-- Corner accents estático -->
+<div class="card dark wide">
+<div style="display:flex;align-items:center;gap:14px">
+<div style="position:relative;width:20px;height:20px;flex-shrink:0">
+<div style="position:absolute;top:0;left:0;width:8px;height:8px;border-top:2px solid #F97316;border-left:2px solid #F97316"></div>
+<div style="position:absolute;bottom:0;right:0;width:8px;height:8px;border-bottom:2px solid rgba(249,115,22,0.35);border-right:2px solid rgba(249,115,22,0.35)"></div>
+</div>
+<span class="d" style="font-size:1.35rem">AUTONOMA<span class="ac bk">_</span></span>
+</div>
+<div class="card-note">Corner accents<br>do design system</div>
+</div>
+
+<!-- Corner accents girando -->
+<div class="card dark wide">
+<div style="display:flex;align-items:center;gap:14px">
+<div style="position:relative;width:20px;height:20px;flex-shrink:0;animation:rotS 25s linear infinite">
+<div style="position:absolute;top:0;left:0;width:9px;height:9px;border-top:2px solid #F97316;border-left:2px solid #F97316"></div>
+<div style="position:absolute;bottom:0;right:0;width:9px;height:9px;border-bottom:2px solid rgba(249,115,22,0.3);border-right:2px solid rgba(249,115,22,0.3)"></div>
+</div>
+<span class="d" style="font-size:1.35rem">AUTONOMA<span class="ac bk">_</span></span>
+</div>
+<div class="card-note">Corner girando<br>25s loop</div>
+</div>
+
+<!-- Quadrado tracejado -->
+<div class="card dark wide">
+<div style="display:flex;align-items:center;gap:12px">
+<svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+<rect x="1" y="1" width="20" height="20" stroke="#F97316" stroke-width="1.3" stroke-dasharray="4 3" style="animation:dash 3s linear infinite"/>
+<circle cx="11" cy="11" r="2" fill="#F97316" style="animation:pulse 2s ease-in-out infinite"/>
+</svg>
+<span class="d" style="font-size:1.35rem">AUTONOMA<span class="ac bk">_</span></span>
+</div>
+<div class="card-note">Quadrado tracejado<br>animado + dot</div>
+</div>
+
+<!-- "A" geométrico -->
+<div class="card dark wide">
+<div style="display:flex;align-items:center;gap:12px">
+<svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+<line x1="3" y1="20" x2="11" y2="2" stroke="#F97316" stroke-width="1.8" stroke-linecap="square"/>
+<line x1="19" y1="20" x2="11" y2="2" stroke="#F97316" stroke-width="1.8" stroke-linecap="square"/>
+<line x1="6" y1="14" x2="16" y2="14" stroke="#F97316" stroke-width="1.2" opacity="0.45"/>
+</svg>
+<span class="d" style="font-size:1.35rem">AUTONOMA<span class="ac bk">_</span></span>
+</div>
+<div class="card-note">"A" geométrico<br>angular, minimalista</div>
+</div>
+
+<!-- Scan line no quadrado -->
+<div class="card dark wide">
+<div style="display:flex;align-items:center;gap:12px">
+<div style="position:relative;width:22px;height:22px;flex-shrink:0;border:1.3px solid rgba(249,115,22,0.5);overflow:hidden">
+<div style="position:absolute;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,#F97316,transparent);animation:scanV 3s ease-in-out infinite"></div>
+<div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:4px;height:4px;background:#F97316;opacity:0.7"></div>
+</div>
+<span class="d" style="font-size:1.35rem">AUTONOMA<span class="ac bk">_</span></span>
+</div>
+<div class="card-note">Quadrado com scan<br>line passando</div>
+</div>
+
+<!-- Network nodes -->
+<div class="card dark wide">
+<div style="display:flex;align-items:center;gap:12px">
+<svg width="24" height="22" viewBox="0 0 24 22" fill="none">
+<line x1="4" y1="18" x2="12" y2="3" stroke="rgba(249,115,22,0.2)" stroke-width="0.8"/>
+<line x1="20" y1="18" x2="12" y2="3" stroke="rgba(249,115,22,0.2)" stroke-width="0.8"/>
+<line x1="4" y1="18" x2="20" y2="18" stroke="rgba(249,115,22,0.2)" stroke-width="0.8"/>
+<circle cx="12" cy="3" r="2.5" fill="none" stroke="#F97316" stroke-width="1.3"/><circle cx="12" cy="3" r="1" fill="#F97316" style="animation:pulse 2s ease-in-out infinite"/>
+<circle cx="4" cy="18" r="2" fill="none" stroke="rgba(249,115,22,0.45)" stroke-width="1"/><circle cx="4" cy="18" r="0.8" fill="rgba(249,115,22,0.45)"/>
+<circle cx="20" cy="18" r="2" fill="none" stroke="rgba(249,115,22,0.45)" stroke-width="1"/><circle cx="20" cy="18" r="0.8" fill="rgba(249,115,22,0.45)"/>
+</svg>
+<span class="d" style="font-size:1.35rem">AUTONOMA<span class="ac bk">_</span></span>
+</div>
+<div class="card-note">Network triangle<br>IA + conectividade</div>
+</div>
+
+</div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ====================== WORDMARK LIGHT ====================== -->
+<div class="section">
+<div class="stitle">02 — Wordmark · fundo claro</div>
+<div class="grid2">
+
+<div class="card light wide">
+<div style="display:flex;align-items:center">
+<span class="d dark-text" style="font-size:1.35rem">AUTONOMA<span class="ac bk">_</span></span>
+</div>
+<div class="card-note">Clean + cursor</div>
+</div>
+
+<div class="card light wide">
+<div style="display:flex;align-items:center;gap:14px">
+<div style="position:relative;width:20px;height:20px;flex-shrink:0">
+<div style="position:absolute;top:0;left:0;width:8px;height:8px;border-top:2px solid #F97316;border-left:2px solid #F97316"></div>
+<div style="position:absolute;bottom:0;right:0;width:8px;height:8px;border-bottom:2px solid rgba(249,115,22,0.3);border-right:2px solid rgba(249,115,22,0.3)"></div>
+</div>
+<span class="d dark-text" style="font-size:1.35rem">AUTONOMA<span class="ac bk">_</span></span>
+</div>
+<div class="card-note">Corner accents</div>
+</div>
+
+<div class="card light wide">
+<div style="display:flex;align-items:center;gap:12px">
+<svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+<line x1="3" y1="20" x2="11" y2="2" stroke="#F97316" stroke-width="1.8" stroke-linecap="square"/>
+<line x1="19" y1="20" x2="11" y2="2" stroke="#F97316" stroke-width="1.8" stroke-linecap="square"/>
+<line x1="6" y1="14" x2="16" y2="14" stroke="#F97316" stroke-width="1.2" opacity="0.45"/>
+</svg>
+<span class="d dark-text" style="font-size:1.35rem">AUTONOMA<span class="ac bk">_</span></span>
+</div>
+<div class="card-note">"A" geométrico</div>
+</div>
+
+<div class="card light wide">
+<div style="display:flex;align-items:center;gap:10px">
+<div style="width:8px;height:8px;border-radius:50%;background:#F97316;animation:glow 2.5s ease-in-out infinite;flex-shrink:0"></div>
+<span class="d dark-text" style="font-size:1.35rem">AUTONOMA<span class="ac bk">_</span></span>
+</div>
+<div class="card-note">Dot pulsante</div>
+</div>
+
+</div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ====================== PROFILE PICTURES ====================== -->
+<div class="section">
+<div class="stitle">03 — Profile pictures · ícones · favicon</div>
+<div class="grid4">
+
+<!-- PFP: A_ dark, clean -->
+<div class="card dark" style="padding:32px;aspect-ratio:1">
+<svg width="100" height="100" viewBox="0 0 100 100" fill="none">
+<rect width="100" height="100" fill="#050505"/>
+<text x="50" y="68" text-anchor="middle" style="font-family:'Inter',sans-serif;font-weight:500;font-size:52px;fill:#FFFFFF;letter-spacing:-0.05em">A<tspan style="fill:#F97316">_</tspan></text>
+</svg>
+<div class="card-note">A_ clean dark</div>
+</div>
+
+<!-- PFP: A_ com corner accents -->
+<div class="card dark" style="padding:32px;aspect-ratio:1">
+<svg width="100" height="100" viewBox="0 0 100 100" fill="none">
+<rect width="100" height="100" fill="#050505"/>
+<path d="M8 8 L8 22" stroke="#F97316" stroke-width="1.5" opacity="0.4"/><path d="M8 8 L22 8" stroke="#F97316" stroke-width="1.5" opacity="0.4"/>
+<path d="M92 92 L92 78" stroke="#F97316" stroke-width="1.5" opacity="0.4"/><path d="M92 92 L78 92" stroke="#F97316" stroke-width="1.5" opacity="0.4"/>
+<text x="50" y="68" text-anchor="middle" style="font-family:'Inter',sans-serif;font-weight:500;font-size:52px;fill:#FFFFFF;letter-spacing:-0.05em">A<tspan style="fill:#F97316">_</tspan></text>
+</svg>
+<div class="card-note">A_ + corners</div>
+</div>
+
+<!-- PFP: "A" geométrico -->
+<div class="card dark" style="padding:32px;aspect-ratio:1">
+<svg width="100" height="100" viewBox="0 0 100 100" fill="none">
+<rect width="100" height="100" fill="#050505"/>
+<path d="M8 8 L8 22" stroke="#F97316" stroke-width="1.5" opacity="0.3"/><path d="M8 8 L22 8" stroke="#F97316" stroke-width="1.5" opacity="0.3"/>
+<path d="M92 92 L92 78" stroke="#F97316" stroke-width="1.5" opacity="0.3"/><path d="M92 92 L78 92" stroke="#F97316" stroke-width="1.5" opacity="0.3"/>
+<line x1="30" y1="78" x2="50" y2="22" stroke="#F97316" stroke-width="3" stroke-linecap="square"/>
+<line x1="70" y1="78" x2="50" y2="22" stroke="#F97316" stroke-width="3" stroke-linecap="square"/>
+<line x1="36" y1="60" x2="64" y2="60" stroke="#F97316" stroke-width="2" opacity="0.4"/>
+<line x1="72" y1="78" x2="84" y2="78" stroke="#F97316" stroke-width="2.5"/>
+</svg>
+<div class="card-note">A geométrico + underscore</div>
+</div>
+
+<!-- PFP: Network A -->
+<div class="card dark" style="padding:32px;aspect-ratio:1">
+<svg width="100" height="100" viewBox="0 0 100 100" fill="none">
+<rect width="100" height="100" fill="#050505"/>
+<line x1="25" y1="75" x2="50" y2="25" stroke="rgba(249,115,22,0.2)" stroke-width="1"/>
+<line x1="75" y1="75" x2="50" y2="25" stroke="rgba(249,115,22,0.2)" stroke-width="1"/>
+<line x1="25" y1="75" x2="75" y2="75" stroke="rgba(249,115,22,0.2)" stroke-width="1"/>
+<circle cx="50" cy="25" r="6" fill="none" stroke="#F97316" stroke-width="1.5"/><circle cx="50" cy="25" r="2.5" fill="#F97316"/>
+<circle cx="25" cy="75" r="5" fill="none" stroke="rgba(249,115,22,0.5)" stroke-width="1.2"/><circle cx="25" cy="75" r="2" fill="rgba(249,115,22,0.5)"/>
+<circle cx="75" cy="75" r="5" fill="none" stroke="rgba(249,115,22,0.5)" stroke-width="1.2"/><circle cx="75" cy="75" r="2" fill="rgba(249,115,22,0.5)"/>
+</svg>
+<div class="card-note">Network A</div>
+</div>
+
+<!-- PFP: A_ light -->
+<div class="card" style="padding:32px;aspect-ratio:1;background:#fff;border-color:rgba(0,0,0,0.08)">
+<svg width="100" height="100" viewBox="0 0 100 100" fill="none">
+<rect width="100" height="100" fill="#FFFFFF"/>
+<text x="50" y="68" text-anchor="middle" style="font-family:'Inter',sans-serif;font-weight:500;font-size:52px;fill:#050505;letter-spacing:-0.05em">A<tspan style="fill:#F97316">_</tspan></text>
+</svg>
+<div class="card-note" style="color:rgba(0,0,0,0.3)">A_ clean light</div>
+</div>
+
+<!-- PFP: A_ light + corners -->
+<div class="card" style="padding:32px;aspect-ratio:1;background:#fff;border-color:rgba(0,0,0,0.08)">
+<svg width="100" height="100" viewBox="0 0 100 100" fill="none">
+<rect width="100" height="100" fill="#FFFFFF"/>
+<path d="M8 8 L8 22" stroke="#F97316" stroke-width="1.5" opacity="0.35"/><path d="M8 8 L22 8" stroke="#F97316" stroke-width="1.5" opacity="0.35"/>
+<path d="M92 92 L92 78" stroke="#F97316" stroke-width="1.5" opacity="0.35"/><path d="M92 92 L78 92" stroke="#F97316" stroke-width="1.5" opacity="0.35"/>
+<text x="50" y="68" text-anchor="middle" style="font-family:'Inter',sans-serif;font-weight:500;font-size:52px;fill:#050505;letter-spacing:-0.05em">A<tspan style="fill:#F97316">_</tspan></text>
+</svg>
+<div class="card-note" style="color:rgba(0,0,0,0.3)">A_ + corners light</div>
+</div>
+
+<!-- PFP: Geométrico light -->
+<div class="card" style="padding:32px;aspect-ratio:1;background:#fff;border-color:rgba(0,0,0,0.08)">
+<svg width="100" height="100" viewBox="0 0 100 100" fill="none">
+<rect width="100" height="100" fill="#FFFFFF"/>
+<path d="M8 8 L8 22" stroke="#F97316" stroke-width="1.5" opacity="0.25"/><path d="M8 8 L22 8" stroke="#F97316" stroke-width="1.5" opacity="0.25"/>
+<path d="M92 92 L92 78" stroke="#F97316" stroke-width="1.5" opacity="0.25"/><path d="M92 92 L78 92" stroke="#F97316" stroke-width="1.5" opacity="0.25"/>
+<line x1="30" y1="78" x2="50" y2="22" stroke="#F97316" stroke-width="3" stroke-linecap="square"/>
+<line x1="70" y1="78" x2="50" y2="22" stroke="#F97316" stroke-width="3" stroke-linecap="square"/>
+<line x1="36" y1="60" x2="64" y2="60" stroke="#F97316" stroke-width="2" opacity="0.35"/>
+<line x1="72" y1="78" x2="84" y2="78" stroke="#F97316" stroke-width="2.5"/>
+</svg>
+<div class="card-note" style="color:rgba(0,0,0,0.3)">A geométrico light</div>
+</div>
+
+<!-- PFP: Circular dark -->
+<div class="card dark" style="padding:32px;aspect-ratio:1">
+<svg width="100" height="100" viewBox="0 0 100 100" fill="none">
+<circle cx="50" cy="50" r="49" fill="#050505" stroke="rgba(249,115,22,0.2)" stroke-width="1"/>
+<text x="50" y="66" text-anchor="middle" style="font-family:'Inter',sans-serif;font-weight:500;font-size:48px;fill:#FFFFFF;letter-spacing:-0.05em">A<tspan style="fill:#F97316">_</tspan></text>
+</svg>
+<div class="card-note">Circular dark<br>WhatsApp / Discord</div>
+</div>
+
+</div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ====================== FAVICON ====================== -->
+<div class="section">
+<div class="stitle">04 — Favicons (32px / 64px)</div>
+<div class="grid4">
+
+<div class="card dark" style="padding:24px;aspect-ratio:1">
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+<rect width="64" height="64" fill="#050505"/>
+<text x="32" y="44" text-anchor="middle" style="font-family:'Inter',sans-serif;font-weight:600;font-size:36px;fill:#FFFFFF;letter-spacing:-0.05em">A<tspan style="fill:#F97316">_</tspan></text>
+</svg>
+<div class="card-note">64x64 clean</div>
+</div>
+
+<div class="card dark" style="padding:24px;aspect-ratio:1">
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+<rect width="64" height="64" fill="#050505"/>
+<path d="M4 4 L4 12" stroke="#F97316" stroke-width="1.2" opacity="0.35"/><path d="M4 4 L12 4" stroke="#F97316" stroke-width="1.2" opacity="0.35"/>
+<path d="M60 60 L60 52" stroke="#F97316" stroke-width="1.2" opacity="0.35"/><path d="M60 60 L52 60" stroke="#F97316" stroke-width="1.2" opacity="0.35"/>
+<text x="32" y="44" text-anchor="middle" style="font-family:'Inter',sans-serif;font-weight:600;font-size:36px;fill:#FFFFFF;letter-spacing:-0.05em">A<tspan style="fill:#F97316">_</tspan></text>
+</svg>
+<div class="card-note">64x64 + corners</div>
+</div>
+
+<div class="card dark" style="padding:24px;aspect-ratio:1">
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+<rect width="64" height="64" fill="#F97316"/>
+<text x="32" y="44" text-anchor="middle" style="font-family:'Inter',sans-serif;font-weight:600;font-size:36px;fill:#050505;letter-spacing:-0.05em">A_</text>
+</svg>
+<div class="card-note">64x64 accent fill</div>
+</div>
+
+<div class="card" style="padding:24px;aspect-ratio:1;background:#fff;border-color:rgba(0,0,0,0.08)">
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+<rect width="64" height="64" fill="#FFFFFF"/>
+<text x="32" y="44" text-anchor="middle" style="font-family:'Inter',sans-serif;font-weight:600;font-size:36px;fill:#050505;letter-spacing:-0.05em">A<tspan style="fill:#F97316">_</tspan></text>
+</svg>
+<div class="card-note" style="color:rgba(0,0,0,0.3)">64x64 light</div>
+</div>
+
+</div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ====================== MARCA + TAGLINE ====================== -->
+<div class="section">
+<div class="stitle">05 — Marca completa com tagline</div>
+<div class="grid2">
+
+<div class="card dark" style="padding:48px">
+<div style="display:flex;flex-direction:column;align-items:flex-start;gap:10px">
+<div style="display:flex;align-items:center;gap:12px">
+<div style="position:relative;width:20px;height:20px;flex-shrink:0">
+<div style="position:absolute;top:0;left:0;width:8px;height:8px;border-top:2px solid #F97316;border-left:2px solid #F97316"></div>
+<div style="position:absolute;bottom:0;right:0;width:8px;height:8px;border-bottom:2px solid rgba(249,115,22,0.35);border-right:2px solid rgba(249,115,22,0.35)"></div>
+</div>
+<span class="d" style="font-size:1.35rem">AUTONOMA<span class="ac bk">_</span></span>
+</div>
+<span style="font-size:9px;letter-spacing:0.18em;color:rgba(255,255,255,0.2);text-transform:uppercase;padding-left:34px">AI AGENTS NEVER SLEEP</span>
+</div>
+<div class="card-note">Corners + tagline</div>
+</div>
+
+<div class="card dark" style="padding:48px">
+<div style="display:flex;flex-direction:column;align-items:flex-start;gap:10px">
+<div style="display:flex;align-items:center;gap:12px">
+<svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+<line x1="3" y1="20" x2="11" y2="2" stroke="#F97316" stroke-width="1.8" stroke-linecap="square"/>
+<line x1="19" y1="20" x2="11" y2="2" stroke="#F97316" stroke-width="1.8" stroke-linecap="square"/>
+<line x1="6" y1="14" x2="16" y2="14" stroke="#F97316" stroke-width="1.2" opacity="0.45"/>
+</svg>
+<span class="d" style="font-size:1.35rem">AUTONOMA<span class="ac bk">_</span></span>
+</div>
+<span style="font-size:9px;letter-spacing:0.18em;color:rgba(255,255,255,0.2);text-transform:uppercase;padding-left:34px">AI AGENTS NEVER SLEEP</span>
+</div>
+<div class="card-note">"A" mark + tagline</div>
+</div>
+
+<div class="card light" style="padding:48px">
+<div style="display:flex;flex-direction:column;align-items:flex-start;gap:10px">
+<div style="display:flex;align-items:center;gap:12px">
+<div style="position:relative;width:20px;height:20px;flex-shrink:0">
+<div style="position:absolute;top:0;left:0;width:8px;height:8px;border-top:2px solid #F97316;border-left:2px solid #F97316"></div>
+<div style="position:absolute;bottom:0;right:0;width:8px;height:8px;border-bottom:2px solid rgba(249,115,22,0.3);border-right:2px solid rgba(249,115,22,0.3)"></div>
+</div>
+<span class="d dark-text" style="font-size:1.35rem">AUTONOMA<span class="ac bk">_</span></span>
+</div>
+<span style="font-size:9px;letter-spacing:0.18em;color:rgba(0,0,0,0.25);text-transform:uppercase;padding-left:34px">AI AGENTS NEVER SLEEP</span>
+</div>
+<div class="card-note" style="color:rgba(0,0,0,0.3)">Light + tagline</div>
+</div>
+
+<div class="card light" style="padding:48px">
+<div style="display:flex;flex-direction:column;align-items:flex-start;gap:10px">
+<div style="display:flex;align-items:center;gap:12px">
+<svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+<line x1="3" y1="20" x2="11" y2="2" stroke="#F97316" stroke-width="1.8" stroke-linecap="square"/>
+<line x1="19" y1="20" x2="11" y2="2" stroke="#F97316" stroke-width="1.8" stroke-linecap="square"/>
+<line x1="6" y1="14" x2="16" y2="14" stroke="#F97316" stroke-width="1.2" opacity="0.4"/>
+</svg>
+<span class="d dark-text" style="font-size:1.35rem">AUTONOMA<span class="ac bk">_</span></span>
+</div>
+<span style="font-size:9px;letter-spacing:0.18em;color:rgba(0,0,0,0.25);text-transform:uppercase;padding-left:34px">AI AGENTS NEVER SLEEP</span>
+</div>
+<div class="card-note" style="color:rgba(0,0,0,0.3)">Light + "A" mark</div>
+</div>
+
+</div>
+</div>
+
+</div>
+</body>
+</html>
