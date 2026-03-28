@@ -1185,15 +1185,22 @@ Ver funcionando
 
   let lastActive = -1;
   let maxProgress = 0; // progresso máximo já atingido (mobile: animação one-way)
+  // Cache innerHeight no mobile para evitar jank do iOS (address bar aparece/some)
+  const cachedInnerH = isMobile ? window.innerHeight : 0;
 
   function updateSteps() {
     const rect = section.getBoundingClientRect();
     const sectionHeight = section.offsetHeight;
     const scrolled = -rect.top;
-    const scrollable = sectionHeight - window.innerHeight;
+    const viewH = isMobile ? cachedInnerH : window.innerHeight;
+    const scrollable = sectionHeight - viewH;
     const rawProgress = Math.max(0, Math.min(1, scrolled / scrollable));
     // Mobile: progresso só avança, nunca reverte ao subir
-    if (isMobile && rawProgress > maxProgress) maxProgress = rawProgress;
+    // Mas reseta quando usuário sai da seção pelo topo (rawProgress volta a 0)
+    if (isMobile) {
+      if (rawProgress < 0.01) maxProgress = 0; // usuário saiu pelo topo — reseta
+      else if (rawProgress > maxProgress) maxProgress = rawProgress;
+    }
     const progress = isMobile ? maxProgress : rawProgress;
 
     // Determine active step
