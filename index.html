@@ -945,7 +945,7 @@ Ver funcionando
     </div>
 
     <!-- Content area -->
-    <div class="relative w-full max-w-5xl mx-auto px-6 lg:pl-52 xl:pl-60 lg:pr-12 h-full">
+    <div class="relative w-full max-w-5xl mx-auto px-6 lg:pl-52 xl:pl-60 lg:pr-12 h-full" id="meth-content">
 
       <!-- Step 1: IDENTIFICAR -->
       <div class="meth-step absolute inset-0 flex items-center px-6 lg:pl-52 xl:pl-60 lg:pr-12 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]" id="meth-step-0" role="tabpanel" aria-labelledby="meth-label-0" style="opacity: 1; transform: translateY(0); filter: blur(0);">
@@ -1093,10 +1093,19 @@ Ver funcionando
   /* Micro labels: ocultar no mobile */
   #meth-sidebar .meth-micro { display: none !important; }
 
-  /* Steps: ocupa a área abaixo da barra horizontal */
+  /* Content area: ocupa espaço restante abaixo da sidebar */
+  #meth-content {
+    flex: 1 !important;
+    position: relative !important;
+    padding-left: 1.5rem !important;
+    padding-right: 1.5rem !important;
+    min-height: 0 !important;
+  }
+
+  /* Steps: posição relativa ao content area (não à tela) */
   .meth-step {
     position: absolute !important;
-    top: 72px !important;
+    top: 0 !important;
     left: 0 !important; right: 0 !important; bottom: 0 !important;
     padding: 2rem 1.5rem !important;
     align-items: flex-start !important;
@@ -1175,13 +1184,17 @@ Ver funcionando
   const cornersBR = document.querySelectorAll('.meth-corner-br');
 
   let lastActive = -1;
+  let maxProgress = 0; // progresso máximo já atingido (mobile: animação one-way)
 
   function updateSteps() {
     const rect = section.getBoundingClientRect();
     const sectionHeight = section.offsetHeight;
     const scrolled = -rect.top;
     const scrollable = sectionHeight - window.innerHeight;
-    const progress = Math.max(0, Math.min(1, scrolled / scrollable));
+    const rawProgress = Math.max(0, Math.min(1, scrolled / scrollable));
+    // Mobile: progresso só avança, nunca reverte ao subir
+    if (isMobile && rawProgress > maxProgress) maxProgress = rawProgress;
+    const progress = isMobile ? maxProgress : rawProgress;
 
     // Determine active step
     let activeStep;
