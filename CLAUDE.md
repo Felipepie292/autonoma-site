@@ -303,6 +303,7 @@ O site é totalmente responsivo. Principais implementações:
 - Botão vira X ao abrir; `body overflow:hidden` enquanto aberto
 
 ### Hero (mobile)
+- `<main>` usa `lg:min-h-[80vh]` (não `min-h-[80vh]`) — sem altura mínima no mobile, evita espaço vazio abaixo do CTA
 - Sidebar de stats (`lg:col-span-2`) está `hidden lg:flex` — oculta no mobile
 - Strip de stats abaixo do CTA: `flex lg:hidden` com 3 métricas em linha (`border-t`)
 - Cena isométrica (`.hi-wrap`) oculta em mobile, visível a partir de `lg`
@@ -313,8 +314,25 @@ O site é totalmente responsivo. Principais implementações:
 - Coluna de texto ocupa largura total com `px-6 py-12`
 
 ### Metodologia (mobile)
-- CSS block: `#metodologia-section { height: auto !important; }` e sticky container → `position:relative; height:auto; overflow:visible`
-- `#meth-mobile` (fallback JS para mobile) já existia; o CSS desfaz o sticky container que o impedia de aparecer
+O sticky scroll é mantido no mobile com layout vertical, mas com a barra 01→02→03 na parte **inferior** (não no topo).
+
+**Layout atual (flex column, top → bottom):**
+1. `#meth-content` (`order:1; flex:1`) — texto animado (headline + parágrafo de cada step) ocupa o topo
+2. `#meth-sidebar` (`order:2`) — barra horizontal 01→02→03 fixada no rodapé com `border-top` sutil
+
+**CSS key:**
+- `sticky top: 4rem` — container sticky inicia abaixo da nav fixa (~64px), evitando que a barra fique escondida atrás da nav
+- `height: calc(100vh - 4rem)` — altura compensada pelo offset do nav
+- Sidebar: `padding: 0.75rem 1.25rem 1rem` (padding bottom, não top)
+- `.meth-step { position:absolute; top:0; bottom:0; padding: 2rem 1.5rem; align-items: flex-start }` — preenche toda a área de conteúdo
+
+**JS — progresso one-way com reset:**
+- `maxProgress` acumula o progresso máximo atingido (animação não reverte ao subir)
+- Reset: `if (rawProgress < 0.01) maxProgress = 0` — quando usuário sobe acima da seção, animação replay do começo
+- `cachedInnerH = window.innerHeight` capturado no init — evita jank do iOS (address bar aparece/some alterando `window.innerHeight`)
+- Beams animam `width` (horizontal) no mobile e `height` (vertical) no desktop
+
+**`#meth-mobile`** (fallback JS estático) fica `display:none !important` — JS usa os `.meth-step` animados em todos os viewports
 
 ### Casos / Cards (mobile) — **Carousel 1 card por tela**
 - CSS: `@media (max-width: 1023px)` logo antes de `@keyframes beam-drop-h`
