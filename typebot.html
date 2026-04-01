@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Typebot — Autonoma</title>
+</head>
+<body>
+<script>
+const typebotInitScript = document.createElement("script");
+typebotInitScript.type = "module";
+typebotInitScript.innerHTML = `import Typebot from 'https://cdn.jsdelivr.net/npm/@typebot.io/js@0/dist/web.js'
+
+Typebot.initPopup({
+  typebot: "meu-typebot-rdqvtm8",
+  apiHost: "https://view.autonomaai.tech",
+});
+`;
+document.body.append(typebotInitScript);
+</script>
+</body>
+</html>
