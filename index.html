@@ -416,7 +416,6 @@ addUtilities({
 <a class="hover:text-white transition-colors" href="#metodologia-section">Como funciona</a>
 <a class="hover:text-white transition-colors" href="#casos-section">Cases</a>
 <a class="hover:text-white transition-colors" href="#whatsapp-demo-section">FAQ</a>
-<a class="hover:text-white transition-colors" href="#typebot-section">Chat</a>
 </div>
 </div>
 <!-- Actions -->
@@ -441,7 +440,6 @@ Ver funcionando
   <a class="text-2xl font-medium text-white tracking-tight border-b border-white/5 pb-5" href="#metodologia-section" onclick="closeNavMenu()">Como funciona</a>
   <a class="text-2xl font-medium text-white tracking-tight border-b border-white/5 pb-5" href="#casos-section" onclick="closeNavMenu()">Cases</a>
   <a class="text-2xl font-medium text-white tracking-tight border-b border-white/5 pb-5" href="#whatsapp-demo-section" onclick="closeNavMenu()">FAQ</a>
-  <a class="text-2xl font-medium text-white tracking-tight border-b border-white/5 pb-5" href="#typebot-section" onclick="closeNavMenu()">Chat</a>
   <a class="mt-4 inline-flex items-center justify-center gap-2 bg-[#F97316] text-black font-semibold text-sm uppercase tracking-wider px-6 py-4" href="#contato-section" onclick="closeNavMenu()">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.832-1.438A9.96 9.96 0 0 0 12 22c5.523 0 10-4.477 10-10S17.523 2 12 2z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M8.5 12.5s1 1.5 3.5 1.5 3.5-1.5 3.5-1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M9 9h.01M15 9h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
     Ver funcionando
@@ -5411,31 +5409,6 @@ document.addEventListener('DOMContentLoaded', function() {
 </section>
 <!-- /Seção Expert -->
 
-<!-- Seção Typebot -->
-<section id="typebot-section" style="background:#050505;border-top:1px solid rgba(255,255,255,0.05);">
-  <div style="max-width:900px;margin:0 auto;padding:5rem 1.5rem;">
-    <!-- Header -->
-    <div style="margin-bottom:2.5rem;">
-      <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#F97316;text-transform:uppercase;letter-spacing:.15em;display:block;margin-bottom:1rem;padding-left:3px;border-left:2px solid #F97316;padding-left:.75rem;">// Fale com a Autonoma</span>
-      <h2 style="font-family:'Inter',sans-serif;font-size:clamp(1.75rem,4vw,2.5rem);font-weight:500;color:#ffffff;letter-spacing:-0.04em;line-height:1.1;margin:0;">Como podemos ajudar seu negócio?</h2>
-    </div>
-    <!-- Typebot embed -->
-    <typebot-standard style="width:100%;height:600px;"></typebot-standard>
-  </div>
-</section>
-<script>
-const typebotInitScript = document.createElement("script");
-typebotInitScript.type = "module";
-typebotInitScript.innerHTML = `import Typebot from 'https://cdn.jsdelivr.net/npm/@typebot.io/js@0/dist/web.js'
-
-Typebot.initStandard({
-  typebot: "meu-typebot-rdqvtm8",
-  apiHost: "https://view.autonomaai.tech",
-});
-`;
-document.body.append(typebotInitScript);
-</script>
-
 <!-- Footer / Contact Section -->
 <style>
   .ft-input {
@@ -5490,53 +5463,8 @@ document.body.append(typebotInitScript);
         Preencha e um dos nossos agentes de IA entra em contato pelo WhatsApp em minutos. Sim, é um agente de verdade — e essa já é sua primeira demonstração.
       </p>
 
-      <!-- Form -->
-      <form id="ft-form">
-        <div id="ft-form-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:2rem 3rem;margin-bottom:2rem;">
-
-          <!-- Bloco esquerdo -->
-          <div>
-            <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#9CA3AF;text-transform:uppercase;letter-spacing:0.12em;margin-bottom:1.25rem;">Informações de contato</div>
-            <div style="display:flex;flex-direction:column;gap:1.25rem;">
-              <input class="ft-input" type="text" name="nome" placeholder="Nome" required>
-              <input class="ft-input" type="tel" name="telefone" id="ft-telefone" placeholder="(XX) 9XXXX-XXXX" maxlength="16" required>
-              <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#9CA3AF;letter-spacing:0.04em;">DDD + celular — ex: (11) 91234-5678</span>
-              <input class="ft-input" type="email" name="email" placeholder="Email" required>
-            </div>
-          </div>
-
-          <!-- Bloco direito -->
-          <div>
-            <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#9CA3AF;text-transform:uppercase;letter-spacing:0.12em;margin-bottom:1.25rem;">Informações sobre a empresa</div>
-            <div style="display:flex;flex-direction:column;gap:1.25rem;">
-              <input class="ft-input" type="text" name="empresa" placeholder="Nome da Empresa" required>
-              <select class="ft-input" name="segmento" required>
-                <option value="" disabled selected>Segmento de atuação</option>
-                <option>Clínica / Saúde</option>
-                <option>Imobiliária</option>
-                <option>Varejo</option>
-                <option>Agência</option>
-                <option>Serviços</option>
-                <option>Outro</option>
-              </select>
-              <select class="ft-input" name="porte" required>
-                <option value="" disabled selected>Porte da empresa</option>
-                <option>1–5 funcionários</option>
-                <option>6–20 funcionários</option>
-                <option>21–50 funcionários</option>
-                <option>50+ funcionários</option>
-              </select>
-            </div>
-          </div>
-        </div>
-
-        <!-- Botão -->
-        <button type="submit" id="ft-btn" style="background:#F97316;color:#ffffff;padding:14px 32px;font-family:'Inter',sans-serif;font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:10px;transition:opacity 0.2s;" onmouseover="if(!this.disabled)this.style.opacity='.88'" onmouseout="this.style.opacity='1'">
-          Solicitar Diagnóstico
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </button>
-        <div id="ft-msg" style="display:none;margin-top:1rem;font-family:'Inter',sans-serif;font-size:14px;line-height:1.6;"></div>
-      </form>
+      <!-- Typebot embed -->
+      <typebot-standard style="width:100%;height:600px;"></typebot-standard>
 
       <!-- Separador + copyright -->
       <div style="margin-top:3rem;padding-top:1.5rem;border-top:1px solid #E5E7EB;">
@@ -5559,92 +5487,16 @@ document.body.append(typebotInitScript);
 
   </div>
 <script>
-(function(){
-  var el = document.getElementById('ft-telefone');
-  if (!el) return;
-  function mask(v) {
-    v = v.replace(/\D/g, '').slice(0, 11);
-    if (v.length === 0) return '';
-    if (v.length <= 2)  return '(' + v;
-    if (v.length <= 7)  return '(' + v.slice(0,2) + ') ' + v.slice(2);
-    if (v.length <= 11) return '(' + v.slice(0,2) + ') ' + v.slice(2,7) + '-' + v.slice(7);
-    return v;
-  }
-  el.addEventListener('input', function(e) {
-    var pos = el.selectionStart;
-    var raw = el.value.replace(/\D/g,'');
-    el.value = mask(raw);
-    // reposiciona cursor de forma aproximada
-    var diff = el.value.length - raw.length;
-    el.setSelectionRange(pos + diff, pos + diff);
-  });
-  el.addEventListener('blur', function() {
-    var digits = el.value.replace(/\D/g,'');
-    if (digits.length > 0 && digits.length < 11) {
-      el.setCustomValidity('Digite o número completo: (XX) 9XXXX-XXXX');
-    } else {
-      el.setCustomValidity('');
-    }
-  });
-  el.addEventListener('input', function() { el.setCustomValidity(''); });
-})();
-</script>
-<script>
-(function(){
-  var form = document.getElementById('ft-form');
-  var btn  = document.getElementById('ft-btn');
-  var msg  = document.getElementById('ft-msg');
-  if (!form) return;
+const typebotInitScript = document.createElement("script");
+typebotInitScript.type = "module";
+typebotInitScript.innerHTML = `import Typebot from 'https://cdn.jsdelivr.net/npm/@typebot.io/js@0/dist/web.js'
 
-  form.addEventListener('submit', function(e) {
-    e.preventDefault();
-
-    // Desabilitar botão
-    btn.disabled = true;
-    btn.style.opacity = '0.6';
-    btn.style.cursor = 'not-allowed';
-    btn.innerHTML = 'ENVIANDO...';
-
-    var data = {
-      nome:      form.querySelector('[name="nome"]').value.trim(),
-      telefone:  form.querySelector('[name="telefone"]').value.trim(),
-      email:     form.querySelector('[name="email"]').value.trim(),
-      empresa:   form.querySelector('[name="empresa"]').value.trim(),
-      segmento:  form.querySelector('[name="segmento"]').value,
-      porte:     form.querySelector('[name="porte"]').value
-    };
-
-    fetch('https://script.google.com/macros/s/AKfycbyQO4a4YsRq_QqaZg0ik8kIn3JF1pazmShybbuYsNncxxspaSa5Gp2ZY9YyAiOiy9oi/exec', {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    })
-    .then(function() {
-      // Sucesso: esconder formulário, mostrar confirmação
-      form.style.display = 'none';
-      msg.style.display = 'block';
-      msg.style.color = '#166534';
-      msg.style.background = '#f0fdf4';
-      msg.style.border = '1px solid #bbf7d0';
-      msg.style.padding = '16px 20px';
-      msg.textContent = 'Recebemos seus dados. Um agente da Autonoma vai entrar em contato pelo WhatsApp em breve.';
-    })
-    .catch(function() {
-      // Erro: reabilitar botão, mostrar erro
-      btn.disabled = false;
-      btn.style.opacity = '1';
-      btn.style.cursor = 'pointer';
-      btn.innerHTML = 'Solicitar Diagnóstico <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-      msg.style.display = 'block';
-      msg.style.color = '#991b1b';
-      msg.style.background = '#fef2f2';
-      msg.style.border = '1px solid #fecaca';
-      msg.style.padding = '16px 20px';
-      msg.textContent = 'Erro ao enviar. Tente novamente.';
-    });
-  });
-})();
+Typebot.initStandard({
+  typebot: "meu-typebot-rdqvtm8",
+  apiHost: "https://view.autonomaai.tech",
+});
+`;
+document.body.append(typebotInitScript);
 </script>
 </footer>
 
