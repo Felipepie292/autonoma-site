@@ -37,16 +37,16 @@ Resumo rápido:
 1. **Nav** — logo oficial AUTONOMA_ (Inter 500, cursor laranja piscando), links, CTA "Ver funcionando". **Nav fixa** (`fixed top-0 left-0 right-0 z-50 bg-[#050505]/80 backdrop-blur-md`).
 2. **Hero** — grid 12 colunas: col-5 texto + CTA laranja, col-5 cena isométrica animada (`.hi-wrap`), col-2 sidebar com 3 stats reais (+35 empresas / 47k leads / R$2.1M). `mt-28 lg:mt-32` para compensar nav fixa.
 3. **Manifesto** (sem section ID) — letra scramble animada
-4. **Diagnóstico** (sem ID, `bg-[#080808]`) — split 6/6: texto à esquerda (`lg:px-16`, `justify-center`) + código à direita. **Visível.**
-5. **Metodologia** (id="metodologia-section") — sticky scroll, 3 steps
-6. **Pilares** (id="pilares-section") — 4 cards de serviço
-7. **Casos** (id="casos-section") — sticky horizontal scroll com 5 case cards
-8. **WhatsApp Demo** (id="whatsapp-demo-section") — iPhone mockup + FAQ. **Visível.**
-9. **Expert** (sem ID) — seção fullscreen `min-height:100vh`, `assets/foto_expert.png` como fundo (`object-fit:cover`), overlay `rgba(0,0,0,0.45)`. Texto grande (Inter 500, uppercase, `clamp(2.5rem,5vw,5rem)`) topo-esquerdo com `// ` laranja; subtexto topo-direito.
-10. **Footer / Contato** — fundo `#ffffff`, grid 12 col. **SUBSTITUÍDO COMPLETAMENTE** (ver seção abaixo).
+4. **Metodologia** (id="metodologia-section") — sticky scroll, 3 steps
+5. **Pilares** (id="pilares-section") — 4 cards de serviço
+6. **Casos** (id="casos-section") — sticky horizontal scroll com 5 case cards
+7. **WhatsApp Demo** (id="whatsapp-demo-section") — iPhone mockup + FAQ. **Visível.**
+8. **Expert** (sem ID) — seção fullscreen `min-height:100vh`, `assets/foto_expert.png` como fundo (`object-fit:cover`), overlay `rgba(0,0,0,0.45)`. Texto grande (Inter 500, uppercase, `clamp(2.5rem,5vw,5rem)`) topo-esquerdo com `// ` laranja; subtexto topo-direito.
+9. **Footer / Contato** (id="contato-section") — fundo `#ffffff`, grid 12 col. Formulário **substituído por Typebot embed** (ver seção abaixo).
 
-### HIDDEN / REMOVIDOS DO DOM:
-- **sys-scroll-outer** — seção "Seus funcionários de IA" (lixo do template). **REMOVIDA DO DOM em runtime** por script inline logo após seu fechamento. Não reativar.
+### REMOVIDAS DO DOM (não recriar):
+- **Diagnóstico** (`bg-[#080808]`) — seção "Seu negócio gera dados o tempo todo" removida completamente.
+- **sys-scroll-outer** — seção "Seus funcionários de IA" (lixo do template). Removida do DOM em runtime por script inline. Não reativar.
 - **cases-section** (id="cases-section") — seção antiga que continha mc-card e rc-card. Cards migrados para #cc-grid. Seção está `class="hidden"`, não usar.
 - **compare-section** (id="compare-section") — comparativo operacional, `display:none`
 
@@ -218,61 +218,53 @@ Entre `whatsapp-demo-section` e o footer. Sem section ID.
 
 ## FOOTER / SEÇÃO DE CONTATO — ESTADO ATUAL
 
-Footer antigo ("Enquanto você avalia...") foi **completamente substituído** por uma seção de contato com formulário.
+Footer substituído por seção de contato com **Typebot embed** (formulário removido).
 
 ### Estrutura:
 - **Fundo:** `#ffffff`, `border-top: 1px solid #E5E7EB`
-- **Grid:** 12 colunas, `col-span-7` esquerda + `col-span-5` direita
-- **Padding:** `py-24 lg:py-32` equivalente (6rem top, inline)
+- **Grid:** 12 colunas, `col-span-7` esquerda (`id="ft-left"`) + `col-span-5` direita (`id="ft-right"`)
 
 ### Coluna esquerda:
-- Tag `// ENTRE EM CONTATO` (JetBrains Mono, 10px, laranja, com barra laranja à esquerda)
-- Headline: "Pronto pra ver o que a IA pode fazer pelo seu negócio?" (`clamp(2rem,4vw,3.5rem)`, Inter 500)
-- Descrição: 14px, `#6B7280`
-- **Formulário** `id="ft-form"`: dois blocos lado a lado
-  - Esquerdo: Nome, Telefone (com máscara BR `(XX) 9XXXX-XXXX`), Email
-  - Direito: Nome da Empresa, Segmento (select), Porte (select)
-- Inputs: `.ft-input` — bg transparente, só `border-bottom: 1px solid #E5E7EB`, focus laranja
-- Botão `id="ft-btn"`: `SOLICITAR DIAGNÓSTICO`, bg `#F97316`, cantos retos
-- Feedback `id="ft-msg"`: sucesso (verde `#166534` / `#f0fdf4`) ou erro (vermelho `#991b1b` / `#fef2f2`)
+- Tag `// ENTRE EM CONTATO`
+- Headline: "Pronto pra ver o que a IA pode fazer pelo seu negócio?"
+- Descrição: "Responda algumas perguntas e a gente te retorna com um diagnóstico real do seu negócio."
+- **`<typebot-standard style="width:100%;height:600px;">`** — embed inline do Typebot
 - Separador `1px #E5E7EB` + copyright `© 2025 AUTONOMA`
 
 ### Coluna direita:
-- `A_` gigante centralizado: `clamp(280px,22vw,320px)`, Inter 500
-  - `A`: `rgba(0,0,0,0.28)`
-  - `_`: `rgba(249,115,22,0.6)` + `animation: logo-blink 1.2s step-end infinite`
-- Corner accent topo-esquerdo: 24px, `border-top/left: 2px solid #F97316`
-- Corner accent inferior-direito: 24px, `border-bottom/right: 2px solid rgba(249,115,22,0.3)`
-- `overflow:hidden` no container
+- `A_` gigante centralizado, corner accents laranja
 
-### Submit JS (script inline no footer):
-- POST fetch para `https://script.google.com/macros/s/AKfycbyQO4a4YsRq_QqaZg0ik8kIn3JF1pazmShybbuYsNncxxspaSa5Gp2ZY9YyAiOiy9oi/exec`
-- `mode: 'no-cors'` (resolve CORS do Google Apps Script)
-- Body JSON: `{nome, telefone, email, empresa, segmento, porte}`
-- Durante envio: botão desabilitado, texto `ENVIANDO...`
-- Sucesso: formulário `display:none`, mensagem verde
-- Erro: botão reabilitado, mensagem vermelha
-
-### Máscara telefone (script inline no footer):
-- Campo `id="ft-telefone"`, `maxlength="16"`
-- Formata em tempo real: `(XX) 9XXXX-XXXX`, só aceita 11 dígitos
-- Validação no blur: `setCustomValidity` se incompleto
+### Typebot (script inline no footer):
+```js
+const typebotInitScript = document.createElement("script");
+typebotInitScript.type = "module";
+typebotInitScript.innerHTML = `import Typebot from 'https://cdn.jsdelivr.net/npm/@typebot.io/js@0/dist/web.js'
+Typebot.initStandard({
+  typebot: "meu-typebot-rdqvtm8",
+  apiHost: "https://view.autonomaai.tech",
+});`;
+document.body.append(typebotInitScript);
+```
+- `initStandard` sem `container` — o Typebot detecta o elemento `<typebot-standard>` automaticamente
+- Formulário antigo (Google Apps Script) e scripts de máscara/submit foram removidos
 
 ---
 
 ## COPYS ATUALIZADAS
 
-### Seção Diagnóstico (bg-[#080808]):
-- **Parágrafo 1:** "Cada conversa com cliente esconde padrão de comportamento... porque tá todo mundo ocupado apagando incêndio."
-- **Parágrafo 2 + destaque:** "Os Agentes da Autonoma capturam tudo isso enquanto trabalham... devolvem pra você os insights que sua equipe nunca teve tempo de extrair."
-- **Barra laranja:** "Sua operação melhora toda semana. Sem você precisar contratar mais ninguém."
+### Metodologia — headlines dos steps:
+- **Step 1 (IDENTIFICAR):** "Mapeamos onde o tempo some e onde está o dinheiro parado."
+- **Step 2 (EDUCAR):** "Sua equipe entende o que delegar. Você decide o que construir."
+- **Step 3 (DESENVOLVER):** "Agentes treinados com seus dados, prontos pra operar no dia um."
 
-### Pilares — card "TREINADO POR PESSOAS":
-- **Headline:** "Cada agente é construído do zero pro seu negócio."
-- **Descrição:** "Mapeamos seus processos, treinamos os agentes com seus dados reais... é um funcionário digital que já chega sabendo como sua empresa funciona."
+### Pilares — header da seção:
+- **Descrição:** "Cada agente é construído pro seu negócio — não é instalado, é treinado."
 
 ### WhatsApp Demo — subtítulo:
-- "Enquanto sua equipe lida com retrabalho, esquecimento e sobrecarga... O gargalo que trava seu crescimento não é falta de gente. É excesso de processo manual."
+- "O problema não é o tamanho do time. É o quanto do time ainda faz coisa que máquina faz melhor."
+
+### Footer / Contato — descrição:
+- "Responda algumas perguntas e a gente te retorna com um diagnóstico real do seu negócio."
 
 ### Case cards — descrições (cc-sub, 15px):
 - **cc-card (Pneus):** "Cliente manda 'quanto custa o pneu 205/55?' e em 8 segundos..."
