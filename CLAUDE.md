@@ -380,3 +380,80 @@ Cards 1 e 2 usam `flex:1` em elementos filhos (chat-body, sm-pipe-body) dentro d
 4. **Respeitar prefixos CSS internos.** Cada card tem seu prefixo interno (mc-, rc-, sm-, cc-, c3-) no expanded. O collapsed usa sempre classes cc- universais.
 5. **Não reativar sys-scroll-outer.** Essa seção é removida do DOM no runtime por script inline.
 6. **Ao fazer qualquer alteração estrutural, atualizar este arquivo (CLAUDE.md)** com o que mudou — seções adicionadas/removidas, IDs novos, mudanças de ordem, lógica JS nova.
+
+---
+
+## HISTÓRICO DE ALTERAÇÕES (Abril 2026)
+
+### ✅ IMPLEMENTADAS COM SUCESSO
+
+1. **Metodologia scroll fix — maxProgress reset + cachedInnerH**
+   - Problema: No mobile, o scroll da seção Metodologia ficava muito pra cima, cortando a animação do card
+   - Solução: Adicionado `maxProgress` para acumular progresso máximo (não reverte ao subir) + `cachedInnerH` capturado no init para evitar jank do iOS (address bar aparece/some)
+   - Commit: Integrado no fluxo de correções
+
+2. **Hero mobile fix — remove empty space below CTA**
+   - Problema: Espaço vazio preto abaixo do CTA no mobile
+   - Solução: Alterado `<main>` de `min-h-[80vh]` para `lg:min-h-[80vh]` (altura mínima só em desktop)
+   - Commit: Integrado
+
+3. **Metodologia mobile layout — bar at bottom**
+   - Problema: Barra de steps (01→02→03) ficava grudada no topo, tampando a animação
+   - Solução: CSS mobile `order:2` no sidebar + `order:1` no content, positioning sticky ajustado com `top:4rem` e `height: calc(100vh - 4rem)`
+   - Commit: Integrado
+
+4. **Typebot integration — replace form**
+   - Problema: Formulário antigo (Google Apps Script) precisava ser removido
+   - Solução: Substituído por `<typebot-standard>` embed com script `Typebot.initStandard()` apontando para `meu-typebot-rdqvtm8` / `https://view.autonomaai.tech`
+   - Localização: Seção contato (#contato-section), coluna esquerda (#ft-left)
+   - Commit: Integrado
+
+5. **Diagnóstico section removal**
+   - Problema: Seção "Seu negócio gera dados o tempo todo" precisava ser removida
+   - Solução: Removida completamente do HTML (foi uma seção sem ID antes de Manifesto)
+   - Commit: Integrado
+
+6. **Copy updates**
+   - **Metodologia steps:**
+     - Step 1: "Mapeamos onde o tempo some e onde está o dinheiro parado."
+     - Step 2: "Sua equipe entende o que delegar. Você decide o que construir."
+     - Step 3: "Agentes treinados com seus dados, prontos pra operar no dia um."
+   - **Pilares header:** "Cada agente é construído pro seu negócio — não é instalado, é treinado."
+   - **WhatsApp Demo subtitle:** "O problema não é o tamanho do time. É o quanto do time ainda faz coisa que máquina faz melhor."
+   - **Contato description:** "Responda algumas perguntas e a gente te retorna com um diagnóstico real do seu negócio."
+   - Commit: Integrado
+
+7. **Valetão Pneus naming**
+   - Problema: Case card "Pneus" usava "Disk Pneus" em 3 locais
+   - Solução: Trocado para "Valetão Pneus" em: topbar do expanded (cc-card), chat header (cc-card), iPhone mockup header (whatsapp-demo-section)
+   - Commit: `9411f1a`
+
+### ❌ TENTADAS E REVERTIDAS
+
+1. **WhatsApp demo section iPhone fix — Attempt 1 (sticky overflow-x: clip)**
+   - Objetivo: iPhone mockup ESTÁTICO no mobile (não descer com scroll), mensagens animadas dentro
+   - Tentativa: CSS `overflow-x: clip` (em vez de `overflow-hidden`), `position:sticky; top:100px; align-self:start` no iPhone, mobile `align-self:center`
+   - Resultado: Ficou péssimo — user feedback: "volte como estava"
+   - Revert: `git revert` simples, voltou ao estado anterior
+
+2. **WhatsApp demo section iPhone fix — Attempt 2 (sticky + viewport math)**
+   - Objetivo: Mesmo — iPhone estático
+   - Tentativa: `overflow: clip` ambos eixos + sticky + cálculo viewport-aware `min(80vw, calc((100svh - 80px) * 300/648))`
+   - Resultado: iPhone continuava descendo com scroll, pior ainda — user: "a tela não scrolla pra baixo, o celular estica, está péssimo"
+   - Revert: `git revert`
+
+3. **WhatsApp demo section iPhone fix — Attempt 3 (sizing reduction only)**
+   - Objetivo: Mesmo
+   - Tentativa: Reduzir tamanho do iPhone no mobile apenas com `max-width: 60vw`, sem sticky
+   - Resultado: Ainda ficou péssimo — user: "volte antes de todas essas alterações, ficou péssimo"
+   - Revert: `git revert` de todos os 5 commits de tentativas em um comando único
+   - **Status atual:** Seção whatsapp-demo voltou ao estado original (antes de qualquer tentativa). iPhone mockup segue padrão desktop: `width:300px; max-width:85vw` com responsive media query (lg: 380px)
+   - **Problema não resolvido:** iPhone ainda desce com scroll no mobile. Comportamento desejado explicitado pelo user: "um mockup de iphone ESTÁTICO, com as conversas descendo, mas a tela está estática."
+
+---
+
+## NOTAS DE DESENVOLVIMENTO
+
+- **Seção whatsapp-demo:** Aguardando nova abordagem ou clarificação. Todas as 3 tentativas CSS falhou. Possível necessidade de redesign do layout (talvez iPhone não deveria estar em scroll absoluto, ou a seção precisa estrutura diferente).
+- **Git revert chain:** Os 5 reverts de whatsapp foram feitos em um comando (`git revert efbbe21 4e5751c c92aa4f d5b83e4 914ded3 --no-edit`) criando 5 commits de revert sequenciais. Histórico Git é ligeiramente complexo, mas funcional.
+- **Typebot API:** Endpoint customizado `https://view.autonomaai.tech` em vez de padrão `https://api.typebot.io`
