@@ -4636,7 +4636,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <!-- ═══════════════════════════════════════════════════════════ -->
 <!-- SEÇÃO: WHATSAPP DEMO                                        -->
 <!-- ═══════════════════════════════════════════════════════════ -->
-<section id="whatsapp-demo-section" aria-label="Demonstração de atendimento via WhatsApp" class="relative w-full bg-[#050505] py-20 lg:py-32" style="overflow:clip;">
+<section id="whatsapp-demo-section" aria-label="Demonstração de atendimento via WhatsApp" class="relative w-full bg-[#050505] py-20 lg:py-32 overflow-hidden">
 
   <!-- Glow de fundo -->
   <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
@@ -4651,7 +4651,7 @@ document.addEventListener('DOMContentLoaded', function() {
     <div class="contents">
 
     <!-- ========== iPHONE COLUMN ========== -->
-    <div class="flex-shrink-0" style="width:300px;max-width:85vw;position:sticky;top:100px;align-self:start;" id="wa-iphone-wrap">
+    <div class="flex-shrink-0" style="width:300px;max-width:85vw;" id="wa-iphone-wrap">
 
       <!-- iPhone 15 Pro Body -->
       <div style="position:relative;width:100%;aspect-ratio:300/648;background:linear-gradient(145deg,#2a2a2c 0%,#1a1a1c 40%,#111113 60%,#1c1c1e 100%);border-radius:54px;box-shadow:0 0 0 1px rgba(255,255,255,0.13),inset 0 0 0 1px rgba(255,255,255,0.06),0 40px 80px rgba(0,0,0,0.8),0 20px 40px rgba(0,0,0,0.6),0 4px 12px rgba(0,0,0,0.5);padding:10px;box-sizing:border-box;">
@@ -5061,19 +5061,9 @@ document.addEventListener('DOMContentLoaded', function() {
   100% { opacity: 1; transform: translateY(0); }
 }
 
-/* Responsive iPhone sizing + sticky */
+/* Responsive iPhone sizing */
 @media (min-width: 1024px) {
   #wa-iphone-wrap { width: 380px; }
-}
-@media (max-width: 1023px) {
-  /* Centraliza + redimensiona o iPhone pra caber no viewport no mobile.
-     A largura é calculada pra que a altura proporcional (300/648) caiba em 100svh - 80px.
-     min() garante que em telas grandes nunca passe de 80vw. */
-  #wa-iphone-wrap {
-    align-self: center !important;
-    width: min(80vw, calc((100svh - 80px) * 300 / 648)) !important;
-    max-width: unset !important;
-  }
 }
 </style>
 
