@@ -5065,6 +5065,10 @@ document.addEventListener('DOMContentLoaded', function() {
 @media (min-width: 1024px) {
   #wa-iphone-wrap { width: 380px; }
 }
+/* Mobile: iPhone menor pra caber no viewport com cards visíveis abaixo */
+@media (max-width: 1023px) {
+  #wa-iphone-wrap { max-width: 60vw !important; }
+}
 </style>
 
 <!-- WhatsApp Demo Script -->
