@@ -4648,7 +4648,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     <!-- Bloco esquerdo: iPhone + Cards -->
     <div class="w-full lg:w-1/2 flex flex-col lg:flex-row items-center lg:items-start justify-center gap-8 lg:gap-10 px-4 lg:pl-12 lg:pr-8 py-8 lg:py-0">
-    <div class="contents">
 
     <!-- ========== iPHONE COLUMN ========== -->
     <div class="flex-shrink-0" style="width:300px;max-width:85vw;" id="wa-iphone-wrap">
@@ -4696,7 +4695,7 @@ document.addEventListener('DOMContentLoaded', function() {
           </div>
 
           <!-- Chat area -->
-          <div style="flex:1;overflow-y:auto;overflow-x:hidden;position:relative;background-color:#e5ddd5;" id="wa-chat-area">
+          <div style="flex:1;overflow:hidden;position:relative;background-color:#e5ddd5;" id="wa-chat-area">
             <!-- Wallpaper pattern -->
             <div style="position:absolute;inset:0;opacity:0.35;pointer-events:none;" aria-hidden="true">
               <svg width="100%" height="100%"><defs><pattern id="wa-pat2" x="0" y="0" width="60" height="60" patternUnits="userSpaceOnUse"><path d="M15 15 Q20 5 25 15 Q30 25 25 30 Q20 35 15 30 Q10 25 15 15Z" fill="rgba(0,0,0,0.07)"/><path d="M40 40 Q45 30 50 40 Q55 50 50 55 Q45 60 40 55 Q35 50 40 40Z" fill="rgba(0,0,0,0.07)"/><path d="M5 40 Q10 30 15 40 Q20 50 15 55 Q10 60 5 55 Q0 50 5 40Z" fill="rgba(0,0,0,0.05)"/></pattern></defs><rect width="100%" height="100%" fill="url(#wa-pat2)"/></svg>
@@ -4708,7 +4707,7 @@ document.addEventListener('DOMContentLoaded', function() {
             </div>
 
             <!-- Messages container (JS populates this) -->
-            <div id="wa-messages" style="padding:4px 10px 10px;display:flex;flex-direction:column;gap:3px;position:relative;z-index:1;"></div>
+            <div id="wa-messages" style="padding:4px 10px 10px;display:flex;flex-direction:column;gap:3px;position:absolute;bottom:0;left:0;right:0;z-index:1;"></div>
           </div>
 
           <!-- Input Bar -->
@@ -4887,7 +4886,6 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
     <!-- /CARDS COLUMN -->
 
-    </div><!-- /contents -->
     </div>
     <!-- /Bloco esquerdo -->
 
@@ -5065,6 +5063,17 @@ document.addEventListener('DOMContentLoaded', function() {
 @media (min-width: 1024px) {
   #wa-iphone-wrap { width: 380px; }
 }
+
+/* iOS Safari fix: força chat area a não expandir além do aspect-ratio */
+#wa-chat-area {
+  min-height: 0;
+  contain: strict;
+}
+
+/* Garante que o wrapper do iPhone não vaza no flex */
+#wa-iphone-wrap {
+  align-self: flex-start;
+}
 </style>
 
 <!-- WhatsApp Demo Script -->
@@ -5118,7 +5127,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   /* ── Helpers ── */
   function scheduleTimer(fn, ms) { var id=setTimeout(fn,ms); animTimers.push(id); return id; }
-  function scrollChat() { chatArea.scrollTop = chatArea.scrollHeight; }
+  function scrollChat() { /* mensagens ancoradas em bottom:0 via position:absolute */ }
 
   function showTyping() {
     var w = document.createElement('div');
