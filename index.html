@@ -4707,7 +4707,7 @@ document.addEventListener('DOMContentLoaded', function() {
             </div>
 
             <!-- Messages container (JS populates this) -->
-            <div id="wa-messages" style="padding:4px 10px 10px;display:flex;flex-direction:column;gap:3px;position:absolute;bottom:0;left:0;right:0;z-index:1;"></div>
+            <div id="wa-messages" style="padding:4px 10px 10px;display:flex;flex-direction:column;gap:3px;position:relative;z-index:1;transition:transform 0.45s cubic-bezier(.22,.61,.36,1);will-change:transform;"></div>
           </div>
 
           <!-- Input Bar -->
@@ -5064,15 +5064,24 @@ document.addEventListener('DOMContentLoaded', function() {
   #wa-iphone-wrap { width: 380px; }
 }
 
-/* iOS Safari fix: força chat area a não expandir além do aspect-ratio */
+/* iOS Safari fix: min-height:0 permite que flex:1 respeite overflow:hidden */
 #wa-chat-area {
   min-height: 0;
-  contain: strict;
 }
 
 /* Garante que o wrapper do iPhone não vaza no flex */
 #wa-iphone-wrap {
   align-self: flex-start;
+}
+
+/* Fix iOS: força o body do iPhone a respeitar aspect-ratio mesmo em Safari mobile */
+#wa-iphone-wrap > div {
+  max-height: calc(min(300px, 85vw) * 648 / 300);
+}
+@media (min-width: 1024px) {
+  #wa-iphone-wrap > div {
+    max-height: calc(380px * 648 / 300);
+  }
 }
 </style>
 
@@ -5127,7 +5136,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
   /* ── Helpers ── */
   function scheduleTimer(fn, ms) { var id=setTimeout(fn,ms); animTimers.push(id); return id; }
-  function scrollChat() { /* mensagens ancoradas em bottom:0 via position:absolute */ }
+  function scrollChat() {
+    /* Scroll via transform: GPU-accelerated, idêntico em todos os browsers (incl. iOS Safari).
+       Calcula quanto o container de mensagens passou da área de chat visível e empurra pra cima. */
+    requestAnimationFrame(function() {
+      var areaH = chatArea.clientHeight;
+      var msgsH = msgContainer.scrollHeight;
+      var offset = Math.max(0, msgsH - areaH + 8); /* +8px de folga pra não cortar a última msg */
+      msgContainer.style.transform = offset > 0 ? 'translateY(-' + offset + 'px)' : 'translateY(0)';
+    });
+  }
 
   function showTyping() {
     var w = document.createElement('div');
@@ -5214,6 +5232,7 @@ document.addEventListener('DOMContentLoaded', function() {
     msgContainer.innerHTML = '';
     hideTyping();
     chatArea.scrollTop = 0;
+    msgContainer.style.transform = 'translateY(0)';
     /* Restaura todas as barras skeleton */
     TW_FIELDS.forEach(function(f) {
       f.skIds.forEach(function(id) {
