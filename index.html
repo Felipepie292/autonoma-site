@@ -415,7 +415,7 @@ addUtilities({
 <div class="hidden md:flex items-center gap-10 text-sm font-medium text-neutral-500">
 <a class="hover:text-white transition-colors" href="#metodologia-section">Como funciona</a>
 <a class="hover:text-white transition-colors" href="#casos-section">Cases</a>
-<a class="hover:text-white transition-colors" href="#whatsapp-demo-section">FAQ</a>
+<a class="hover:text-white transition-colors hidden" href="#whatsapp-demo-section" data-hidden-faq-link>FAQ</a>
 </div>
 </div>
 <!-- Actions -->
@@ -439,7 +439,7 @@ Ver funcionando
 <div id="nav-mobile-menu" class="fixed inset-0 z-40 bg-[#050505] flex flex-col px-6 pt-24 pb-10 gap-6 transition-all duration-300" style="opacity:0;pointer-events:none;">
   <a class="text-2xl font-medium text-white tracking-tight border-b border-white/5 pb-5" href="#metodologia-section" onclick="closeNavMenu()">Como funciona</a>
   <a class="text-2xl font-medium text-white tracking-tight border-b border-white/5 pb-5" href="#casos-section" onclick="closeNavMenu()">Cases</a>
-  <a class="text-2xl font-medium text-white tracking-tight border-b border-white/5 pb-5" href="#whatsapp-demo-section" onclick="closeNavMenu()">FAQ</a>
+  <a class="text-2xl font-medium text-white tracking-tight border-b border-white/5 pb-5 hidden" href="#whatsapp-demo-section" onclick="closeNavMenu()" data-hidden-faq-link>FAQ</a>
   <a class="mt-4 inline-flex items-center justify-center gap-2 bg-[#F97316] text-black font-semibold text-sm uppercase tracking-wider px-6 py-4" href="#contato-section" onclick="closeNavMenu()">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.832-1.438A9.96 9.96 0 0 0 12 22c5.523 0 10-4.477 10-10S17.523 2 12 2z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M8.5 12.5s1 1.5 3.5 1.5 3.5-1.5 3.5-1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M9 9h.01M15 9h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
     Ver funcionando
@@ -4636,7 +4636,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <!-- ═══════════════════════════════════════════════════════════ -->
 <!-- SEÇÃO: WHATSAPP DEMO                                        -->
 <!-- ═══════════════════════════════════════════════════════════ -->
-<section id="whatsapp-demo-section" aria-label="Demonstração de atendimento via WhatsApp" class="relative w-full bg-[#050505] py-20 lg:py-32 overflow-hidden">
+<section id="whatsapp-demo-section" aria-label="Demonstração de atendimento via WhatsApp" class="relative w-full bg-[#050505] py-20 lg:py-32 overflow-hidden" style="display:none;">
 
   <!-- Glow de fundo -->
   <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
