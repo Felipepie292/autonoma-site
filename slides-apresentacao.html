@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>AUTONOMA_ — Apresentação de Negócios</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+/* ─── RESET & BASE ─── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --orange: #F97316;
+  --bg0: #050505;
+  --bg1: #080808;
+  --bg2: #0A0A0A;
+  --white: #FFFFFF;
+  --neutral-100: #F5F5F5;
+  --neutral-400: #A3A3A3;
+  --neutral-500: #737373;
+  --neutral-600: #525252;
+  --neutral-700: #404040;
+  --neutral-800: #262626;
+  --neutral-900: #171717;
+}
+
+html, body {
+  width: 100%; height: 100%;
+  background: var(--bg0);
+  font-family: 'Inter', sans-serif;
+  overflow: hidden;
+  color: var(--neutral-400);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── GRID BACKGROUND ─── */
+.grid-bg {
+  background-image:
+    linear-gradient(to right, rgba(255,255,255,0.025) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255,255,255,0.025) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+/* ─── SLIDES ENGINE ─── */
+#deck {
+  position: fixed; inset: 0;
+}
+
+.slide {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  padding: 64px 80px;
+  background: var(--bg0);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease, transform 0.5s cubic-bezier(.22,.61,.36,1);
+  transform: translateY(24px);
+}
+.slide.active {
+  opacity: 1; pointer-events: all;
+  transform: translateY(0);
+}
+.slide.exit-up {
+  opacity: 0; transform: translateY(-24px);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+.slide.enter-down {
+  opacity: 0; transform: translateY(24px);
+}
+
+/* ─── CORNER ACCENTS ─── */
+.ca { position: absolute; width: 14px; height: 14px; }
+.ca-tl { top: 0; left: 0; border-top: 1px solid var(--orange); border-left: 1px solid var(--orange); }
+.ca-tr { top: 0; right: 0; border-top: 1px solid var(--orange); border-right: 1px solid var(--orange); }
+.ca-bl { bottom: 0; left: 0; border-bottom: 1px solid var(--orange); border-left: 1px solid var(--orange); }
+.ca-br { bottom: 0; right: 0; border-bottom: 1px solid var(--orange); border-right: 1px solid var(--orange); }
+
+/* ─── BEAM BORDERS ─── */
+.beam-h {
+  position: absolute; bottom: 0; left: 0; right: 0; height: 1px;
+  background: rgba(255,255,255,0.04); overflow: hidden;
+}
+.beam-h::after {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(to right, transparent, var(--orange), transparent);
+  transform: translateX(-100%);
+  animation: beam-slide 7s cubic-bezier(0.4,0,0.2,1) infinite;
+  animation-delay: 1s; opacity: 0.6;
+}
+@keyframes beam-slide {
+  0%   { transform: translateX(-100%); opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { transform: translateX(100%); opacity: 0; }
+}
+
+/* ─── TAG / LABEL ─── */
+.tag {
+  display: inline-block;
+  font-size: 9px; font-family: 'JetBrains Mono', 'Courier New', monospace;
+  text-transform: uppercase; letter-spacing: .15em;
+  color: var(--orange); opacity: .8;
+}
+
+/* ─── TYPOGRAPHY ─── */
+.display {
+  font-size: clamp(3rem, 7vw, 7rem);
+  font-weight: 500; color: var(--white);
+  line-height: 0.9; letter-spacing: -0.04em;
+  text-transform: uppercase;
+}
+.headline {
+  font-size: clamp(2rem, 4vw, 4.5rem);
+  font-weight: 500; color: var(--white);
+  line-height: 1.05; letter-spacing: -0.03em;
+}
+.subhead {
+  font-size: clamp(1.1rem, 2vw, 1.5rem);
+  font-weight: 400; color: var(--white);
+  line-height: 1.2; letter-spacing: -0.02em;
+}
+.body {
+  font-size: clamp(.85rem, 1.2vw, 1.1rem);
+  color: var(--neutral-400); line-height: 1.65;
+  font-weight: 300;
+}
+.mono {
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  font-size: .7rem; text-transform: uppercase; letter-spacing: .1em;
+}
+.accent { color: var(--orange); }
+.muted  { color: var(--neutral-600); }
+
+/* ─── LAYOUT HELPERS ─── */
+.col   { display: flex; flex-direction: column; }
+.row   { display: flex; flex-direction: row; align-items: center; }
+.gap4  { gap: 1rem; }
+.gap6  { gap: 1.5rem; }
+.gap8  { gap: 2rem; }
+.gap12 { gap: 3rem; }
+.gap16 { gap: 4rem; }
+
+/* ─── CARD ─── */
+.card {
+  background: var(--bg1);
+  border: 1px solid rgba(255,255,255,0.08);
+  position: relative;
+  padding: 28px 32px;
+}
+.card::before, .card::after {
+  content: ''; position: absolute; width: 10px; height: 10px;
+}
+.card::before { top: 0; left: 0; border-top: 1px solid var(--neutral-700); border-left: 1px solid var(--neutral-700); }
+.card::after  { bottom: 0; right: 0; border-bottom: 1px solid var(--neutral-700); border-right: 1px solid var(--neutral-700); }
+
+/* ─── STAT BLOCK ─── */
+.stat-val {
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  font-weight: 300; color: var(--neutral-600);
+  line-height: 1; letter-spacing: -0.05em;
+  transition: color .3s;
+}
+.stat-label {
+  font-size: .6rem; font-family: 'JetBrains Mono','Courier New',monospace;
+  text-transform: uppercase; letter-spacing: .12em;
+  color: var(--neutral-600); margin-top: 8px;
+  padding-left: 8px; border-left: 2px solid transparent;
+  transition: color .3s, border-color .3s;
+}
+
+/* ─── STEP CHIP ─── */
+.step-chip {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 20px;
+}
+.step-dot {
+  width: 10px; height: 10px; background: var(--orange);
+  flex-shrink: 0;
+  box-shadow: 0 0 14px rgba(249,115,22,.4);
+}
+.step-num { color: var(--neutral-600); }
+
+/* ─── DIVIDER ─── */
+.div-h { height: 1px; background: rgba(255,255,255,0.06); }
+.div-v { width: 1px; background: rgba(255,255,255,0.06); align-self: stretch; }
+.div-orange { height: 1px; width: 48px; background: linear-gradient(to right, var(--orange), transparent); }
+
+/* ─── METRIC PILL ─── */
+.metric-pill {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 1px solid rgba(249,115,22,.2);
+  padding: 4px 10px;
+  font-size: .65rem; font-family: 'JetBrains Mono','Courier New',monospace;
+  text-transform: uppercase; letter-spacing: .1em;
+  color: rgba(249,115,22,.7);
+}
+
+/* ─── CTA BUTTON ─── */
+.btn-cta {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--orange); color: #000;
+  padding: 14px 28px; border: none; cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  font-size: .75rem; font-weight: 600;
+  text-transform: uppercase; letter-spacing: .12em;
+  text-decoration: none;
+  transition: opacity .2s;
+}
+.btn-cta:hover { opacity: .9; }
+
+/* ─── GLOW ─── */
+.glow-orange {
+  position: absolute; border-radius: 50%;
+  background: radial-gradient(circle, rgba(249,115,22,.12), transparent 70%);
+  pointer-events: none;
+}
+
+/* ─── PROGRESS BAR ─── */
+#progress-bar {
+  position: fixed; bottom: 0; left: 0; height: 2px;
+  background: var(--orange); opacity: .6;
+  transition: width .4s ease;
+  z-index: 100;
+}
+
+/* ─── SLIDE NUMBER ─── */
+#slide-num {
+  position: fixed; bottom: 28px; right: 40px;
+  font-size: .6rem; font-family: 'JetBrains Mono','Courier New',monospace;
+  text-transform: uppercase; letter-spacing: .12em;
+  color: var(--neutral-700);
+  z-index: 100;
+}
+
+/* ─── NAV HINT ─── */
+#nav-hint {
+  position: fixed; bottom: 28px; left: 40px;
+  font-size: .6rem; font-family: 'JetBrains Mono','Courier New',monospace;
+  text-transform: uppercase; letter-spacing: .12em;
+  color: var(--neutral-800);
+  z-index: 100;
+}
+
+/* ─── SLIDE-SPECIFIC ─── */
+
+/* SLIDE 1 — CAPA */
+#s1 .content { max-width: 900px; }
+#s1 .logo-wrap { display: flex; align-items: center; gap: 10px; margin-bottom: 80px; }
+#s1 .logo-sq  { width: 12px; height: 12px; background: var(--orange); }
+#s1 .logo-txt {
+  font-size: .85rem; font-weight: 500;
+  text-transform: uppercase; letter-spacing: -.03em;
+  color: var(--white);
+}
+#s1 .logo-cursor {
+  color: var(--orange);
+  animation: blink 1.2s step-end infinite;
+}
+@keyframes blink { 0%,49%{opacity:1}50%,100%{opacity:0} }
+
+/* SLIDE 3 — STATS */
+.stats-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2px; width: 100%; }
+.stats-grid .card { border-color: rgba(255,255,255,0.05); padding: 40px 36px; }
+
+/* SLIDE 4 — METODOLOGIA */
+.meth-steps { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 32px; width: 100%; }
+.meth-card {
+  background: var(--bg1); border: 1px solid rgba(255,255,255,0.06);
+  padding: 32px 28px; position: relative;
+}
+.meth-card::before {
+  content: ''; position: absolute; top: 0; left: 0;
+  width: 10px; height: 10px;
+  border-top: 1px solid var(--orange); border-left: 1px solid var(--orange);
+}
+.meth-num {
+  font-size: .65rem; font-family: 'JetBrains Mono','Courier New',monospace;
+  text-transform: uppercase; letter-spacing: .12em; color: var(--orange);
+  opacity: .6; margin-bottom: 20px;
+}
+.meth-title {
+  font-size: 1.3rem; font-weight: 500; color: var(--white);
+  letter-spacing: -.02em; margin-bottom: 12px;
+  line-height: 1.15;
+}
+.meth-body {
+  font-size: .82rem; color: var(--neutral-500); line-height: 1.6;
+}
+
+/* SLIDE 5 — AGENTES */
+.agents-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; width: 100%; }
+.agent-card {
+  background: var(--bg1); border: 1px solid rgba(255,255,255,0.06);
+  padding: 28px; position: relative;
+  display: flex; align-items: flex-start; gap: 20px;
+}
+.agent-card::before {
+  content: ''; position: absolute; top: 0; left: 0;
+  width: 10px; height: 10px;
+  border-top: 1px solid var(--neutral-700); border-left: 1px solid var(--neutral-700);
+}
+.agent-icon {
+  width: 44px; height: 44px; border: 1px solid rgba(255,255,255,0.08);
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  background: var(--bg2);
+}
+.agent-agt {
+  font-size: .6rem; font-family: 'JetBrains Mono','Courier New',monospace;
+  text-transform: uppercase; letter-spacing: .1em;
+  color: var(--orange); opacity: .5; margin-bottom: 6px;
+}
+.agent-name { font-size: 1rem; font-weight: 500; color: var(--white); margin-bottom: 6px; }
+.agent-desc { font-size: .78rem; color: var(--neutral-500); line-height: 1.5; }
+
+/* SLIDE 6 — CASES */
+.cases-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; width: 100%; }
+.case-card {
+  background: var(--bg1); border: 1px solid rgba(255,255,255,0.06);
+  padding: 28px 24px; position: relative;
+  overflow: hidden;
+}
+.case-card::before {
+  content: ''; position: absolute; top: 0; left: 0;
+  width: 10px; height: 10px;
+  border-top: 1px solid var(--orange); border-left: 1px solid var(--orange);
+}
+.case-tag {
+  font-size: .6rem; font-family: 'JetBrains Mono','Courier New',monospace;
+  text-transform: uppercase; letter-spacing: .1em;
+  color: var(--neutral-600); margin-bottom: 14px;
+}
+.case-name { font-size: 1.1rem; font-weight: 500; color: var(--white); margin-bottom: 10px; }
+.case-segment { font-size: .75rem; color: var(--neutral-500); margin-bottom: 20px; line-height: 1.5; }
+.case-metric-row { display: flex; flex-direction: column; gap: 8px; }
+.case-metric { display: flex; justify-content: space-between; align-items: center; }
+.case-metric-val { font-size: 1.1rem; font-weight: 300; color: var(--white); letter-spacing: -.02em; }
+.case-metric-lbl { font-size: .6rem; font-family: 'JetBrains Mono','Courier New',monospace; color: var(--neutral-600); text-transform: uppercase; letter-spacing: .08em; }
+.case-glow {
+  position: absolute; width: 120px; height: 120px;
+  border-radius: 50%; opacity: .04;
+  background: var(--orange);
+  bottom: -40px; right: -40px;
+  filter: blur(40px);
+}
+
+/* SLIDE 7 — PROBLEMA */
+.problem-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; width: 100%; }
+.problem-list { display: flex; flex-direction: column; gap: 20px; }
+.problem-item { display: flex; align-items: flex-start; gap: 16px; padding: 20px 24px; border-left: 1px solid rgba(255,255,255,0.06); }
+.problem-item-icon { width: 8px; height: 8px; background: rgba(249,115,22,.3); flex-shrink: 0; margin-top: 5px; }
+.problem-item-text { font-size: .9rem; color: var(--neutral-400); line-height: 1.5; }
+.problem-item-text strong { color: var(--white); font-weight: 500; }
+
+/* SLIDE 8 — CTA */
+#s8 { text-align: center; }
+#s8 .content { max-width: 700px; }
+
+/* SLIDE 9 — OBRIGADO */
+#s9 { text-align: center; }
+#s9 .content { max-width: 600px; }
+.contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-top: 32px; }
+.contact-item {
+  background: var(--bg1); border: 1px solid rgba(255,255,255,0.05);
+  padding: 20px 24px;
+  text-align: left;
+}
+.contact-item-label { font-size: .6rem; font-family: 'JetBrains Mono','Courier New',monospace; text-transform: uppercase; letter-spacing: .1em; color: var(--neutral-600); margin-bottom: 6px; }
+.contact-item-val { font-size: .9rem; color: var(--neutral-300); }
+
+/* ─── ANIMATIONS ─── */
+.fade-in { animation: fadeIn .5s ease both; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none} }
+.delay-1 { animation-delay: .1s; }
+.delay-2 { animation-delay: .2s; }
+.delay-3 { animation-delay: .3s; }
+.delay-4 { animation-delay: .4s; }
+.delay-5 { animation-delay: .5s; }
+.delay-6 { animation-delay: .6s; }
+.delay-7 { animation-delay: .7s; }
+</style>
+</head>
+<body>
+
+<!-- Progress bar -->
+<div id="progress-bar"></div>
+
+<!-- Slide number -->
+<div id="slide-num"></div>
+
+<!-- Nav hint -->
+<div id="nav-hint">← → navegar</div>
+
+<div id="deck">
+
+  <!-- ════════════════════════════════════ -->
+  <!-- SLIDE 1 — CAPA                      -->
+  <!-- ════════════════════════════════════ -->
+  <div class="slide grid-bg" id="s1">
+    <div class="glow-orange" style="width:600px;height:600px;top:-100px;left:-100px;"></div>
+    <div class="ca ca-tl"></div>
+    <div class="ca ca-tr"></div>
+    <div class="ca ca-bl"></div>
+    <div class="ca ca-br"></div>
+    <div class="beam-h"></div>
+
+    <div class="content col gap12" style="max-width:880px;width:100%;">
+      <div class="logo-wrap fade-in">
+        <div class="logo-sq"></div>
+        <span class="logo-txt">AUTONOMA<span class="logo-cursor">_</span></span>
+        <span class="mono muted" style="margin-left:16px;">// Apresentação de Negócios</span>
+      </div>
+
+      <div>
+        <div class="tag fade-in delay-1" style="margin-bottom:20px;">// Agência de Automação e IA</div>
+        <h1 class="display fade-in delay-2" style="max-width:820px;">
+          Funcionários<br/>
+          de <span class="accent">IA</span><br/>
+          <span class="muted">para seu negócio.</span>
+        </h1>
+      </div>
+
+      <p class="body fade-in delay-3" style="max-width:480px;font-size:1rem;">
+        Agentes de inteligência artificial que assumem o operacional para que você lidere o estratégico.
+      </p>
+
+      <div class="row gap8 fade-in delay-4" style="margin-top:16px;">
+        <div style="text-align:left;">
+          <div class="stat-val" style="font-size:2.5rem;">+35</div>
+          <div class="stat-label" style="margin-top:4px;">Empresas automatizadas</div>
+        </div>
+        <div class="div-v" style="height:48px;"></div>
+        <div>
+          <div class="stat-val" style="font-size:2.5rem;">47k</div>
+          <div class="stat-label" style="margin-top:4px;">Leads processados/mês</div>
+        </div>
+        <div class="div-v" style="height:48px;"></div>
+        <div>
+          <div class="stat-val" style="font-size:2.5rem;">R$2.1M</div>
+          <div class="stat-label" style="margin-top:4px;">Economizados em folha</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════ -->
+  <!-- SLIDE 2 — O PROBLEMA                -->
+  <!-- ════════════════════════════════════ -->
+  <div class="slide" id="s2">
+    <div class="ca ca-tl"></div>
+    <div class="ca ca-br"></div>
+    <div class="beam-h"></div>
+
+    <div class="problem-grid" style="width:100%;max-width:1100px;">
+      <div class="col gap6">
+        <div class="tag fade-in">// O problema</div>
+        <h2 class="headline fade-in delay-1">
+          Seu negócio<br/>
+          <span class="muted">cresceu.</span><br/>
+          A operação<br/>
+          <span class="accent">não acompanhou.</span>
+        </h2>
+        <div class="div-orange fade-in delay-2" style="margin-top:12px;"></div>
+        <p class="body fade-in delay-3" style="max-width:380px;margin-top:4px;">
+          Cada real gasto com tarefas repetitivas é um real que não foi investido em crescimento. A IA muda essa equação.
+        </p>
+      </div>
+
+      <div class="problem-list fade-in delay-2">
+        <div class="problem-item">
+          <div class="problem-item-icon"></div>
+          <div class="problem-item-text"><strong>+40% do tempo</strong> das equipes é gasto em tarefas repetitivas que um agente resolve em segundos.</div>
+        </div>
+        <div class="problem-item">
+          <div class="problem-item-icon"></div>
+          <div class="problem-item-text"><strong>Atendimento lento</strong> custa clientes. Leads não respondidos em 5 min têm 9× menos chance de converter.</div>
+        </div>
+        <div class="problem-item">
+          <div class="problem-item-icon"></div>
+          <div class="problem-item-text"><strong>Contratar mais gente</strong> para escalar operação é caro, arriscado e não resolve o problema raiz.</div>
+        </div>
+        <div class="problem-item">
+          <div class="problem-item-icon"></div>
+          <div class="problem-item-text"><strong>Dados existem</strong> mas ninguém tem tempo de analisar. Decisões são tomadas no feeling.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════ -->
+  <!-- SLIDE 3 — A SOLUÇÃO                 -->
+  <!-- ════════════════════════════════════ -->
+  <div class="slide" id="s3">
+    <div class="ca ca-tl"></div>
+    <div class="ca ca-br"></div>
+    <div class="beam-h"></div>
+    <div class="glow-orange" style="width:500px;height:500px;top:50%;right:-100px;transform:translateY(-50%);opacity:.5;"></div>
+
+    <div style="width:100%;max-width:1100px;">
+      <div class="row gap8" style="margin-bottom:48px;align-items:flex-end;">
+        <div class="col" style="flex:1;">
+          <div class="tag fade-in" style="margin-bottom:16px;">// A solução</div>
+          <h2 class="headline fade-in delay-1" style="max-width:580px;">
+            Agentes de IA que<br/>
+            <span class="accent">operam por você.</span><br/>
+            <span class="muted">24 horas. 7 dias.</span>
+          </h2>
+        </div>
+        <p class="body fade-in delay-2" style="max-width:380px;">
+          Construímos funcionários digitais treinados com os dados e a voz da sua empresa. Eles assumem responsabilidades inteiras — não apenas automatizam tarefas isoladas.
+        </p>
+      </div>
+
+      <div class="stats-grid fade-in delay-3">
+        <div class="card" style="border-color:rgba(255,255,255,0.06);">
+          <div class="tag" style="margin-bottom:12px;">// Velocidade</div>
+          <div class="stat-val">&lt; 2s</div>
+          <div class="stat-label" style="margin-top:10px;">Tempo de resposta médio</div>
+        </div>
+        <div class="card" style="border-color:rgba(255,255,255,0.06);">
+          <div class="tag" style="margin-bottom:12px;">// Disponibilidade</div>
+          <div class="stat-val">24/7</div>
+          <div class="stat-label" style="margin-top:10px;">Operação contínua</div>
+        </div>
+        <div class="card" style="border-color:rgba(255,255,255,0.06);">
+          <div class="tag" style="margin-bottom:12px;">// Resultado</div>
+          <div class="stat-val">92%</div>
+          <div class="stat-label" style="margin-top:10px;">Satisfação dos usuários finais</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════ -->
+  <!-- SLIDE 4 — METODOLOGIA               -->
+  <!-- ════════════════════════════════════ -->
+  <div class="slide" id="s4">
+    <div class="ca ca-tl"></div>
+    <div class="ca ca-br"></div>
+    <div class="beam-h"></div>
+
+    <div style="width:100%;max-width:1100px;">
+      <div class="col gap4" style="margin-bottom:48px;">
+        <div class="tag fade-in">// Como funciona</div>
+        <h2 class="headline fade-in delay-1" style="max-width:600px;">
+          Do diagnóstico ao<br/><span class="accent">agente em produção.</span>
+        </h2>
+      </div>
+
+      <div class="meth-steps">
+        <div class="meth-card fade-in delay-2">
+          <div class="meth-num">01 — IDENTIFICAR</div>
+          <div class="meth-title">Mapeamos onde o tempo some e onde está o dinheiro parado.</div>
+          <div class="meth-body">Análise completa da sua operação: onde os processos travam, onde oportunidades são ignoradas. Você recebe um diagnóstico preciso do que pode ser automatizado.</div>
+          <div class="div-orange" style="margin-top:20px;"></div>
+        </div>
+        <div class="meth-card fade-in delay-3">
+          <div class="meth-num">02 — EDUCAR</div>
+          <div class="meth-title">Sua equipe entende o que delegar. Você decide o que construir.</div>
+          <div class="meth-body">Mostramos exatamente como agentes substituem funções operacionais. Sua equipe aprende a colaborar com IA e priorizar o que importa.</div>
+          <div class="div-orange" style="margin-top:20px;"></div>
+        </div>
+        <div class="meth-card fade-in delay-4">
+          <div class="meth-num">03 — DESENVOLVER</div>
+          <div class="meth-title">Agentes treinados com seus dados, prontos no dia um.</div>
+          <div class="meth-body">Construímos e implementamos funcionários de IA personalizados. Eles assumem responsabilidades inteiras, operam continuamente e evoluem com o negócio.</div>
+          <div class="div-orange" style="margin-top:20px;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════ -->
+  <!-- SLIDE 5 — AGENTES                   -->
+  <!-- ════════════════════════════════════ -->
+  <div class="slide" id="s5">
+    <div class="ca ca-tl"></div>
+    <div class="ca ca-br"></div>
+    <div class="beam-h"></div>
+
+    <div style="width:100%;max-width:1100px;">
+      <div class="col gap4" style="margin-bottom:40px;">
+        <div class="tag fade-in">// Nossos agentes</div>
+        <h2 class="headline fade-in delay-1">
+          Um agente para<br/><span class="accent">cada função crítica.</span>
+        </h2>
+      </div>
+
+      <div class="agents-grid">
+        <div class="agent-card fade-in delay-2">
+          <div class="agent-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.832-1.438A9.96 9.96 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2z" stroke="#F97316" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M8.5 12.5s1 1.5 3.5 1.5 3.5-1.5 3.5-1.5M9 9h.01M15 9h.01" stroke="#F97316" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <div>
+            <div class="agent-agt">AGT.01 — POPULAR</div>
+            <div class="agent-name">Agente de Atendimento</div>
+            <div class="agent-desc">Responde clientes 24/7 via WhatsApp, e-mail e chat. Agenda, qualifica e encaminha sem intervenção humana.</div>
+            <div style="margin-top:12px;display:flex;gap:8px;">
+              <span class="metric-pill">RESP &lt; 2s</span>
+              <span class="metric-pill">SATISF. 92%</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="agent-card fade-in delay-3">
+          <div class="agent-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 3v18h18" stroke="#F97316" stroke-width="1.4" stroke-linecap="round"/><path d="M7 16l4-4 4 4 4-8" stroke="#F97316" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div>
+            <div class="agent-agt">AGT.02</div>
+            <div class="agent-name">Agente de Análise</div>
+            <div class="agent-desc">Monitora KPIs em tempo real, gera relatórios automatizados e alerta sobre anomalias antes de virarem problemas.</div>
+            <div style="margin-top:12px;display:flex;gap:8px;">
+              <span class="metric-pill">148 INSIGHTS/H</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="agent-card fade-in delay-4">
+          <div class="agent-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="7" height="7" stroke="#F97316" stroke-width="1.4"/><rect x="14" y="3" width="7" height="7" stroke="#F97316" stroke-width="1.4"/><rect x="14" y="14" width="7" height="7" stroke="#F97316" stroke-width="1.4"/><path d="M3 17.5h7M6.5 14v7" stroke="#F97316" stroke-width="1.4" stroke-linecap="round"/></svg>
+          </div>
+          <div>
+            <div class="agent-agt">AGT.03</div>
+            <div class="agent-name">Agente de Automação</div>
+            <div class="agent-desc">Conecta ferramentas, dispara fluxos, processa dados entre sistemas. Elimina o trabalho manual de ponta a ponta.</div>
+            <div style="margin-top:12px;display:flex;gap:8px;">
+              <span class="metric-pill">N8N + API</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="agent-card fade-in delay-5">
+          <div class="agent-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="#F97316" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div>
+            <div class="agent-agt">AGT.04</div>
+            <div class="agent-name">Agente de Tráfego</div>
+            <div class="agent-desc">Gerencia campanhas de anúncios, otimiza criativos e ajusta investimento com base em performance real.</div>
+            <div style="margin-top:12px;display:flex;gap:8px;">
+              <span class="metric-pill">CPA -32%</span>
+              <span class="metric-pill">ROAS 4.2×</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════ -->
+  <!-- SLIDE 6 — CASES                     -->
+  <!-- ════════════════════════════════════ -->
+  <div class="slide" id="s6">
+    <div class="ca ca-tl"></div>
+    <div class="ca ca-br"></div>
+    <div class="beam-h"></div>
+
+    <div style="width:100%;max-width:1100px;">
+      <div class="col gap4" style="margin-bottom:40px;">
+        <div class="tag fade-in">// Cases reais</div>
+        <h2 class="headline fade-in delay-1">
+          Resultados que<br/><span class="accent">já aconteceram.</span>
+        </h2>
+      </div>
+
+      <div class="cases-grid">
+        <div class="case-card fade-in delay-2">
+          <div class="case-tag">// Autopeças · Atendimento</div>
+          <div class="case-name">Valetão Pneus</div>
+          <div class="case-segment">Agente de WhatsApp que atende, negocia e agenda serviços automaticamente.</div>
+          <div class="case-metric-row">
+            <div class="div-h" style="margin-bottom:12px;"></div>
+            <div class="case-metric">
+              <span class="case-metric-val">+89</span>
+              <span class="case-metric-lbl">Agendamentos/mês</span>
+            </div>
+            <div class="case-metric">
+              <span class="case-metric-val">24/7</span>
+              <span class="case-metric-lbl">Atendimento ativo</span>
+            </div>
+          </div>
+          <div class="case-glow"></div>
+        </div>
+
+        <div class="case-card fade-in delay-3">
+          <div class="case-tag">// Tráfego Pago · Performance</div>
+          <div class="case-name">Agente Meta Ads</div>
+          <div class="case-segment">Otimização automática de campanhas no Facebook e Instagram com base em ROAS em tempo real.</div>
+          <div class="case-metric-row">
+            <div class="div-h" style="margin-bottom:12px;"></div>
+            <div class="case-metric">
+              <span class="case-metric-val" style="color:var(--orange);">-32%</span>
+              <span class="case-metric-lbl">Redução no CPA</span>
+            </div>
+            <div class="case-metric">
+              <span class="case-metric-val">4.2×</span>
+              <span class="case-metric-lbl">ROAS obtido</span>
+            </div>
+          </div>
+          <div class="case-glow"></div>
+        </div>
+
+        <div class="case-card fade-in delay-4">
+          <div class="case-tag">// Imobiliária · Captação</div>
+          <div class="case-name">Agente Imobiliário</div>
+          <div class="case-segment">Qualifica leads vindos de anúncios e agenda visitas automaticamente via WhatsApp.</div>
+          <div class="case-metric-row">
+            <div class="div-h" style="margin-bottom:12px;"></div>
+            <div class="case-metric">
+              <span class="case-metric-val">+3.2×</span>
+              <span class="case-metric-lbl">Visitas agendadas</span>
+            </div>
+            <div class="case-metric">
+              <span class="case-metric-val">Score 91</span>
+              <span class="case-metric-lbl">Lead qualif. médio</span>
+            </div>
+          </div>
+          <div class="case-glow"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════ -->
+  <!-- SLIDE 7 — POR QUE AUTONOMA          -->
+  <!-- ════════════════════════════════════ -->
+  <div class="slide" id="s7">
+    <div class="ca ca-tl"></div>
+    <div class="ca ca-br"></div>
+    <div class="beam-h"></div>
+    <div class="glow-orange" style="width:400px;height:400px;bottom:-100px;left:-100px;opacity:.4;"></div>
+
+    <div style="width:100%;max-width:1100px;">
+      <div class="col gap4" style="margin-bottom:40px;">
+        <div class="tag fade-in">// Por que a Autonoma</div>
+        <h2 class="headline fade-in delay-1">
+          Não vendemos<br/>
+          <span class="muted">o que não entrega.</span>
+        </h2>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+        <div class="card fade-in delay-2" style="padding:28px 32px;border-color:rgba(255,255,255,0.06);">
+          <div class="tag" style="margin-bottom:12px;">Diagnóstico real</div>
+          <p class="body">Antes de qualquer proposta, mapeamos sua operação. Se não fizer sentido automatizar, a gente fala. <span style="color:var(--white);">Sem promessa vazia.</span></p>
+        </div>
+        <div class="card fade-in delay-3" style="padding:28px 32px;border-color:rgba(255,255,255,0.06);">
+          <div class="tag" style="margin-bottom:12px;">Agentes personalizados</div>
+          <p class="body">Cada agente é treinado com a linguagem, o tom e o contexto da sua empresa. <span style="color:var(--white);">Não é um chatbot genérico.</span></p>
+        </div>
+        <div class="card fade-in delay-4" style="padding:28px 32px;border-color:rgba(255,255,255,0.06);">
+          <div class="tag" style="margin-bottom:12px;">Acompanhamento contínuo</div>
+          <p class="body">Após o deploy, monitoramos performance, ajustamos e evoluímos o agente. <span style="color:var(--white);">O trabalho não termina na entrega.</span></p>
+        </div>
+        <div class="card fade-in delay-5" style="padding:28px 32px;border-color:rgba(255,255,255,0.06);">
+          <div class="tag" style="margin-bottom:12px;">Foco em ROI</div>
+          <p class="body">Medimos tudo. Cada automação tem meta clara de retorno. <span style="color:var(--white);">Você vê o impacto em números.</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════ -->
+  <!-- SLIDE 8 — CTA / PRÓXIMOS PASSOS     -->
+  <!-- ════════════════════════════════════ -->
+  <div class="slide grid-bg" id="s8">
+    <div class="ca ca-tl"></div>
+    <div class="ca ca-tr"></div>
+    <div class="ca ca-bl"></div>
+    <div class="ca ca-br"></div>
+    <div class="beam-h"></div>
+    <div class="glow-orange" style="width:700px;height:700px;top:50%;left:50%;transform:translate(-50%,-50%);opacity:.5;"></div>
+
+    <div class="content col gap8" style="max-width:700px;align-items:center;text-align:center;">
+      <div class="tag fade-in">// Próximo passo</div>
+      <h2 class="headline fade-in delay-1" style="font-size:clamp(2.2rem,5vw,5rem);">
+        Comece com um<br/>
+        <span class="accent">diagnóstico gratuito.</span>
+      </h2>
+      <p class="body fade-in delay-2" style="font-size:1rem;max-width:480px;">
+        Em 30 minutos, mapeamos sua operação e identificamos exatamente onde agentes de IA podem gerar impacto imediato no seu negócio.
+      </p>
+
+      <div style="display:flex;flex-direction:column;gap:10px;align-items:center;" class="fade-in delay-3">
+        <div class="mono muted" style="font-size:.65rem;">O QUE VOCÊ RECEBE:</div>
+        <div style="display:flex;gap:16px;flex-wrap:wrap;justify-content:center;">
+          <span class="metric-pill">Mapa de oportunidades</span>
+          <span class="metric-pill">Estimativa de ROI</span>
+          <span class="metric-pill">Proposta personalizada</span>
+        </div>
+      </div>
+
+      <a class="btn-cta fade-in delay-4" href="mailto:contato@autonoma.ai">
+        Solicitar Diagnóstico
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════ -->
+  <!-- SLIDE 9 — OBRIGADO / CONTATO        -->
+  <!-- ════════════════════════════════════ -->
+  <div class="slide" id="s9">
+    <div class="ca ca-tl"></div>
+    <div class="ca ca-br"></div>
+    <div class="beam-h"></div>
+
+    <div class="content col gap8" style="max-width:600px;align-items:center;text-align:center;">
+      <div>
+        <div class="tag fade-in" style="margin-bottom:20px;">// Obrigado</div>
+        <h2 class="display fade-in delay-1" style="font-size:clamp(3rem,8vw,7rem);">
+          AUTONOMA<span class="accent">_</span>
+        </h2>
+        <p class="body fade-in delay-2" style="margin-top:12px;">Agência de Automação e IA</p>
+      </div>
+
+      <div class="contact-grid fade-in delay-3" style="width:100%;">
+        <div class="contact-item">
+          <div class="contact-item-label">Website</div>
+          <div class="contact-item-val">autonoma.ai</div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-label">WhatsApp</div>
+          <div class="contact-item-val">Agendar Demo</div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-label">Instagram</div>
+          <div class="contact-item-val">@autonoma_</div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-label">Diagnóstico</div>
+          <div class="contact-item-val" style="color:var(--orange);">Gratuito</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /deck -->
+
+<script>
+(function() {
+  'use strict';
+
+  var slides = Array.from(document.querySelectorAll('.slide'));
+  var total  = slides.length;
+  var current = 0;
+
+  var progressBar = document.getElementById('progress-bar');
+  var slideNum    = document.getElementById('slide-num');
+
+  function goTo(idx, dir) {
+    if (idx < 0 || idx >= total || idx === current) return;
+
+    var prev = slides[current];
+    var next = slides[idx];
+
+    // Animate out
+    prev.classList.remove('active');
+    prev.classList.add(dir > 0 ? 'exit-up' : 'enter-down');
+    setTimeout(function() { prev.classList.remove('exit-up', 'enter-down'); }, 500);
+
+    // Animate in
+    next.classList.add(dir > 0 ? 'enter-down' : 'exit-up');
+    requestAnimationFrame(function() {
+      requestAnimationFrame(function() {
+        next.classList.remove('enter-down', 'exit-up');
+        next.classList.add('active');
+        // Re-trigger fade-ins
+        next.querySelectorAll('.fade-in').forEach(function(el) {
+          el.style.animation = 'none';
+          el.offsetHeight; // reflow
+          el.style.animation = '';
+        });
+      });
+    });
+
+    current = idx;
+    updateUI();
+  }
+
+  function updateUI() {
+    var pct = total > 1 ? ((current) / (total - 1)) * 100 : 100;
+    progressBar.style.width = pct + '%';
+    slideNum.textContent = (current + 1).toString().padStart(2,'0') + ' / ' + total.toString().padStart(2,'0');
+  }
+
+  // Init
+  slides[0].classList.add('active');
+  updateUI();
+
+  // Keyboard
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') {
+      e.preventDefault(); goTo(current + 1, 1);
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      e.preventDefault(); goTo(current - 1, -1);
+    } else if (e.key === 'Home') {
+      goTo(0, -1);
+    } else if (e.key === 'End') {
+      goTo(total - 1, 1);
+    }
+  });
+
+  // Click / tap to advance
+  document.getElementById('deck').addEventListener('click', function(e) {
+    if (e.target.tagName === 'A' || e.target.closest('a')) return;
+    var x = e.clientX / window.innerWidth;
+    goTo(x > 0.35 ? current + 1 : current - 1, x > 0.35 ? 1 : -1);
+  });
+
+  // Swipe
+  var touchX = null;
+  document.addEventListener('touchstart', function(e) { touchX = e.changedTouches[0].clientX; }, { passive: true });
+  document.addEventListener('touchend', function(e) {
+    if (touchX === null) return;
+    var dx = e.changedTouches[0].clientX - touchX;
+    if (Math.abs(dx) > 50) goTo(dx < 0 ? current + 1 : current - 1, dx < 0 ? 1 : -1);
+    touchX = null;
+  });
+
+})();
+</script>
+
+</body>
+</html>
